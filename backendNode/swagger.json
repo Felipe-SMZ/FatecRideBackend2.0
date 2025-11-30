@@ -1,0 +1,360 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API anunciantes FATEC carona",
+    "version": "1.0.0",
+    "description": "Spec completa (exemplo) para testar os endpoints principais"
+  },
+  "servers": [
+    { "url": "http://localhost:8081" }
+  ],
+  "paths": {
+    "/anuncio": {
+      "post": {
+        "tags": ["Anunciante"],
+        "summary": "Cadastrar anunciante",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Anunciante" },
+              "example": {
+                "nome_dono": "Atualizar 1",
+                "logo": "logo.png",
+                "razao_social": "Souza Comércio de Informática LTDA",
+                "nome_fantasia": "Souza Tech",
+                "cnpj": "12.345.678/0001-99",
+                "ramo_empresa": "Informática",
+                "descricao_anuncio": "Venda e manutenção de computadores e acessórios",
+                "endereco_empresa": "Av. Paulista, 1500, São Paulo, SP",
+                "endereco_dono": "Rua das Flores, 200, São Paulo, SP",
+                "contato": "(11) 98765-4321",
+                "email": "contato@souza-tech.com",
+                "senha": "SenhaSegura123!",
+                "anuncio": "Promoção de manutenção de computadores com 20% de desconto este mês",
+                "quantidade_alcance": 20
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AnuncianteResponse" },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "message": "criado com sucesso",
+                      "data": {
+                        "_id": "691a8d630ffc24118fd4617c",
+                        "nome_dono": "Teste Copilot",
+                        "logo": "logo.png",
+                        "razao_social": "Souza Comércio de Informática LTDA",
+                        "nome_fantasia": "Souza Tech",
+                        "cnpj": "12.345.678/0001-99",
+                        "ramo_empresa": "Informática",
+                        "descricao_anuncio": "Descrição do anúncio",
+                        "endereco_empresa": "Av. Paulista, 1500, São Paulo, SP",
+                        "endereco_dono": "Rua das Flores, 200, São Paulo, SP",
+                        "contato": "(11) 98765-4321",
+                        "email": "contato@example.com",
+                        "anuncio": "Oferta especial",
+                        "quantidade_alcance": 100,
+                        "quantidade_alcancados": 0,
+                        "createdAt": "2025-11-17T02:50:11.535Z",
+                        "updatedAt": "2025-11-17T02:50:11.535Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Dados inválidos" }
+        }
+      },
+      "patch": {
+        "tags": ["Anunciante"],
+        "summary": "Atualização parcial do anunciante (campos fornecidos)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/PartialAnunciante" },
+              "example": { "contato": "(11) 99999-0000", "logo": "novo-logo.png" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AnuncianteResponse" },
+                "examples": {
+                  "patched": { "value": { "data": { "_id": "691a8d630ffc24118fd4617c", "nome_dono": "Nome atualizado", "contato": "(11) 99999-0000" } } }
+                }
+              }
+            }
+          },
+          "401": { "description": "Token inválido ou ausente" },
+          "404": { "description": "Usuário não encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["Anunciante"],
+        "summary": "Atualização completa do anunciante (espera payload completo)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Anunciante" },
+              "example": {
+                "nome_dono": "Atualizar 1",
+                "logo": "logo.png",
+                "razao_social": "Souza Comércio de Informática LTDA",
+                "nome_fantasia": "Souza Tech",
+                "cnpj": "12.345.678/0001-99",
+                "ramo_empresa": "Informática",
+                "descricao_anuncio": "Descrição atualizada",
+                "endereco_empresa": "Av. Paulista, 1500, São Paulo, SP",
+                "endereco_dono": "Rua das Flores, 200, São Paulo, SP",
+                "contato": "(11) 98765-4321",
+                "email": "contato@souza-tech.com",
+                "senha": "SenhaSegura123!",
+                "anuncio": "Novo anúncio",
+                "quantidade_alcance": 30
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Atualizado",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AnuncianteResponse" },
+                "examples": {
+                  "put": { "value": { "data": { "_id": "691a8d630ffc24118fd4617c", "nome_dono": "Nome Completo", "quantidade_alcance": 50 } } }
+                }
+              }
+            }
+          },
+          "401": { "description": "Token inválido ou ausente" }
+        }
+      },
+      "delete": {
+        "tags": ["Anunciante"],
+        "summary": "Deletar anunciante autenticado",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Deletado com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "deleted": { "value": { "message": "deletado com sucesso" } }
+                }
+              }
+            }
+          },
+          "401": { "description": "Token inválido ou ausente" }
+        }
+      }
+    },
+    "/anuncio/login": {
+      "post": {
+        "tags": ["Anunciante"],
+        "summary": "Login do anunciante (retorna token)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" },
+              "example": { "email": "contato@souza-tech.com", "senha": "SenhaSegura123!" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginResponse" },
+                "examples": {
+                  "token": {
+                    "value": { "data": { "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example.token" } }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
+    "/anuncio/divulgar": {
+      "get": {
+        "tags": ["Anunciante"],
+        "summary": "Retorna um anúncio público aleatório",
+        "responses": {
+          "200": {
+            "description": "Anúncio retornado",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AnuncianteResponse" },
+                "examples": {
+                  "exemplo": {
+                    "value": {
+                      "data": {
+                        "_id": "64f1c2a0a1b2c3d4e5f6a789",
+                        "nome_dono": "Atualizar 1",
+                        "logo": "logo.png",
+                        "razao_social": "Souza Comércio de Informática LTDA",
+                        "nome_fantasia": "Souza Tech",
+                        "cnpj": "12.345.678/0001-99",
+                        "ramo_empresa": "Informática",
+                        "descricao_anuncio": "Venda e manutenção de computadores e acessórios",
+                        "endereco_empresa": "Av. Paulista, 1500, São Paulo, SP",
+                        "endereco_dono": "Rua das Flores, 200, São Paulo, SP",
+                        "contato": "(11) 98765-4321",
+                        "email": "contato@souza-tech.com",
+                        "anuncio": "Promoção de manutenção de computadores com 20% de desconto este mês",
+                        "quantidade_alcance": 20,
+                        "quantidade_alcancados": 5,
+                        "createdAt": "2025-11-17T00:00:00.000Z",
+                        "updatedAt": "2025-11-17T00:00:00.000Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Nenhum anúncio disponível" }
+        }
+      }
+    },
+    "/anuncio/me": {
+      "get": {
+        "tags": ["Anunciante"],
+        "summary": "Retorna dados do anunciante autenticado",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Dados do anunciante",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AnuncianteResponse" },
+                "examples": {
+                  "me": {
+                    "value": {
+                      "data": {
+                        "_id": "691a8d630ffc24118fd4617c",
+                        "nome_dono": "Teste Copilot 2",
+                        "logo": "logo.png",
+                        "razao_social": "Souza Comércio de Informática LTDA",
+                        "nome_fantasia": "Souza Tech",
+                        "cnpj": "12.345.678/0001-99",
+                        "ramo_empresa": "Informática",
+                        "descricao_anuncio": "Venda e manutenção de computadores e acessórios",
+                        "endereco_empresa": "Av. Paulista, 1500, São Paulo, SP",
+                        "endereco_dono": "Rua das Flores, 200, São Paulo, SP",
+                        "contato": "(11) 98765-4321",
+                        "email": "teste+copilot2@example.com",
+                        "anuncio": "Oferta",
+                        "quantidade_alcance": 100,
+                        "quantidade_alcancados": 0,
+                        "createdAt": "2025-11-17T02:50:11.535Z",
+                        "updatedAt": "2025-11-17T02:50:11.535Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Token inválido ou ausente" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Anunciante": {
+        "type": "object",
+        "required": [
+          "nome_dono",
+          "logo",
+          "razao_social",
+          "nome_fantasia",
+          "cnpj",
+          "ramo_empresa",
+          "descricao_anuncio",
+          "endereco_empresa",
+          "endereco_dono",
+          "contato",
+          "email",
+          "senha",
+          "anuncio",
+          "quantidade_alcance"
+        ],
+        "properties": {
+          "nome_dono": { "type": "string" },
+          "logo": { "type": "string" },
+          "razao_social": { "type": "string" },
+          "nome_fantasia": { "type": "string" },
+          "cnpj": { "type": "string" },
+          "ramo_empresa": { "type": "string" },
+          "descricao_anuncio": { "type": "string" },
+          "endereco_empresa": { "type": "string" },
+          "endereco_dono": { "type": "string" },
+          "contato": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "senha": { "type": "string" },
+          "anuncio": { "type": "string" },
+          "quantidade_alcance": { "type": "integer", "format": "int32" }
+        }
+      },
+      "AnuncianteResponse": {
+        "type": "object",
+        "properties": {
+          "data": { "$ref": "#/components/schemas/Anunciante" }
+        }
+      },
+      "PartialAnunciante": {
+        "type": "object",
+        "properties": {
+          "nome_dono": { "type": "string" },
+          "logo": { "type": "string" },
+          "contato": { "type": "string" }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "senha"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "senha": { "type": "string" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": { "token": { "type": "string" } }
+          }
+        }
+      },
+      "ErrorResponse": { "type": "object", "properties": { "message": { "type": "string" } } }
+    },
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    }
+  }
+}

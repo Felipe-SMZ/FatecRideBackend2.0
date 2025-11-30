@@ -1,0 +1,130 @@
+API Anunciantes — Frontend reference
+Base URL: http://localhost:8081
+
+Autenticação:
+- Header: Authorization: Bearer <JWT_TOKEN>
+
+Observação:
+- O backend aceita chaves com e sem acento (ex.: endereco_empresa ou endereço_empresa). Preferir sem acento: endereco_empresa.
+
+---
+
+1) POST /anuncio
+- Auth: Não
+- Request (application/json):
+{
+  "nome_dono": "Atualizar 1",
+  "logo": "logo.png",
+  "razao_social": "Souza Comércio de Informática LTDA",
+  "nome_fantasia": "Souza Tech",
+  "cnpj": "12.345.678/0001-99",
+  "ramo_empresa": "Informática",
+  "descricao_anuncio": "Venda e manutenção de computadores e acessórios",
+  "endereco_empresa": "Av. Paulista, 1500, São Paulo, SP",
+  "endereco_dono": "Rua das Flores, 200, São Paulo, SP",
+  "contato": "(11) 98765-4321",
+  "email": "contato@example.com",
+  "senha": "SenhaSegura123!",
+  "anuncio": "Promoção de manutenção com 20% de desconto",
+  "quantidade_alcance": 20
+}
+- Response (201):
+{
+  "message": "criado com sucesso",
+  "data": { /* objeto do anunciante criado (veja o exemplo completo na spec) */ }
+}
+- Error (400): { "message": "dado inválido" }
+
+---
+
+2) POST /anuncio/login
+- Auth: Não
+- Request:
+{ "email": "contato@example.com", "senha": "SenhaSegura123!" }
+- Response (200):
+{ "data": { "token": "eyJ...seu.token.aqui" } }
+- Error (401): { "message": "credenciais inválidas" }
+
+---
+
+3) GET /anuncio/divulgar
+- Auth: Não
+- Response (200):
+{
+  "data": {
+    "_id": "691a8d630ffc24118fd4617c",
+    "nome_dono": "Teste Copilot 2",
+    "logo": "https://.../logo.png",
+    "razao_social": "Souza Comércio de Informática LTDA",
+    "nome_fantasia": "Souza Tech",
+    "cnpj": "12.345.678/0001-99",
+    "ramo_empresa": "Informática",
+    "descricao_anuncio": "Venda e manutenção de computadores e acessórios",
+    "endereco_empresa": "Av. Paulista, 1500, São Paulo, SP",
+    "endereco_dono": "Rua das Flores, 200, São Paulo, SP",
+    "contato": "(11) 98765-4321",
+    "email": "teste+copilot2@example.com",
+    "anuncio": "https://...",
+    "quantidade_alcance": 100,
+    "quantidade_alcancados": 0,
+    "createdAt": "2025-11-17T02:50:11.535Z",
+    "updatedAt": "2025-11-17T02:50:11.535Z"
+  }
+}
+- Error (404): { "message": "Nenhum anúncio disponível" }
+
+---
+
+4) GET /anuncio/me
+- Auth: Sim (Bearer)
+- Request: nenhum body
+- Response (200):
+{
+  "data": { /* objeto anunciante — password removida */ }
+}
+- Error (401): { "message": "token inválido" }
+
+---
+
+5) PATCH /anuncio
+- Auth: Sim
+- Request (partial update):
+{ "nome_dono": "Nome atualizado", "contato": "(11) 99999-0000" }
+- Response (200):
+{ "data": { "_id": "691a8d630ffc24118fd4617c", "nome_dono": "Nome atualizado", "contato": "(11) 99999-0000" } }
+- Errors: 401 / 404
+
+---
+
+6) PUT /anuncio
+- Auth: Sim
+- Request: payload completo (mesmo formato do POST)
+- Response (200): { "data": { /* anunciante atualizado */ } }
+
+---
+
+7) DELETE /anuncio
+- Auth: Sim
+- Request: nenhum body
+- Response (200): { "message": "deletado com sucesso" }
+- Error (401): { "message": "token inválido" }
+
+---
+
+Exemplo rápido de uso no frontend (fetch):
+
+// login
+const res = await fetch('http://localhost:8081/anuncio/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, senha })
+});
+const { data } = await res.json();
+const token = data.token;
+
+// usar token em chamada autenticada
+await fetch('http://localhost:8081/anuncio/me', {
+  headers: { 'Authorization': `Bearer ${token}` }
+});
+
+Dica: prefira enviar os campos sem acento (`endereco_empresa`, `endereco_dono`) para consistência.

@@ -1,0 +1,1090 @@
+type: collection.insomnia.rest/5.0
+name: backend fatect
+meta:
+  id: wrk_82af75ed35a34327863b931315e3f6ed
+  created: 1750083076731
+  modified: 1750083076731
+collection:
+  - name: ultimo novo backend
+    meta:
+      id: fld_ee6c9f8eaf8445a18e9101a03015f468
+      created: 1750083076809
+      modified: 1750083076809
+      sortKey: -1748696154648
+    children:
+      - name: Estados
+        meta:
+          id: fld_4cf06cb21b544b0a96513b2050be25c2
+          created: 1750083076810
+          modified: 1750083076810
+          sortKey: -1748696161874
+        children:
+          - url: http://localhost:8080/states
+            name: todos Estados
+            meta:
+              id: req_d3a4934472fb4ed39010bdcef5e450f3
+              created: 1750083076811
+              modified: 1750083076811
+              isPrivate: false
+              sortKey: -1748023525455
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/states/2
+            name: estado
+            meta:
+              id: req_8355e96979ab46d397d8d6d5beea8007
+              created: 1750083076813
+              modified: 1750083076813
+              isPrivate: false
+              sortKey: -1748024827317
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Cidades
+        meta:
+          id: fld_a1cd913e619a4a809030efc3d9263d5f
+          created: 1750083076815
+          modified: 1750083076815
+          sortKey: -1748696161774
+        children:
+          - url: http://localhost:8080/cities/2
+            name: all cities
+            meta:
+              id: req_382096213688416486a13d612969f811
+              created: 1750083076817
+              modified: 1750083076817
+              isPrivate: false
+              sortKey: -1748027518298
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: genders
+        meta:
+          id: fld_3335ae22506c4566b8c6d73f6c7eceba
+          created: 1750083076819
+          modified: 1750083076819
+          sortKey: -1748696161574
+        children:
+          - url: http://localhost:8080/genders
+            name: New Request
+            meta:
+              id: req_09a18400c575418ca55a46e383ad7038
+              created: 1750083076820
+              modified: 1750083076820
+              isPrivate: false
+              sortKey: -1745282384188
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: courses
+        meta:
+          id: fld_483fb4bb023c4503b016f90c9ceaecc0
+          created: 1750083076821
+          modified: 1750083076821
+          sortKey: -1748696161474
+        children:
+          - url: http://localhost:8080/courses
+            name: allcourses
+            meta:
+              id: req_05afb0920d7142a0af4ed4ff5561a9a0
+              created: 1750083076822
+              modified: 1750083076822
+              isPrivate: false
+              sortKey: -1748088049964
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: UserType
+        meta:
+          id: fld_3b718706e69b4895bb5bc2186db6c616
+          created: 1750083076824
+          modified: 1750083076824
+          sortKey: -1748696161674
+        children:
+          - url: http://localhost:8080/userType
+            name: all userType
+            meta:
+              id: req_81e4ffbfab50488b88882b4e2a27520a
+              created: 1750083076825
+              modified: 1750083076825
+              isPrivate: false
+              sortKey: -1748090172256
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Cep
+        meta:
+          id: fld_06ad5ec3f7e34ce8b0c7b4ecbe277bb6
+          created: 1750083076827
+          modified: 1750083076827
+          sortKey: -1748696161374
+        children:
+          - url: http://localhost:8080/cep/06700158
+            name: cep
+            meta:
+              id: req_85f190068aa94b459fd289705123bf97
+              created: 1750083076828
+              modified: 1750280242211
+              isPrivate: false
+              sortKey: -1748095296720
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Buscar Local
+        meta:
+          id: fld_d317330d49ff4683bb33faf83e047a34
+          created: 1750083076829
+          modified: 1750083076829
+          sortKey: -1748696161274
+        children:
+          - url: http://localhost:8080/local?local=Estrada Morro Grande Cotia
+            name: BuscarLocal
+            meta:
+              id: req_2f2bbbaa67ef4061aa0be10448b7cedf
+              created: 1750083076831
+              modified: 1750279283493
+              isPrivate: false
+              sortKey: -1747075519833
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_848b1ab31b864d22a084aa242f5d1265
+              - id: pair_4870c330cc2d462d92afb9adc7162f3d
+                name: Bears
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY2Nhcm9uYSIsInN1YiI6ImFtYW5kYUBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjMwMTQxNn0.YmQ0gFc5r3pjxPdVnZHJuVrdgJf2ie2s7EQjN-NFmwk
+                disabled: false
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjMiLCJleHAiOjE3NTAyNzIwNDJ9.yptsJqe-8RVs9BL6pv7pVDsUtHYcvwOXs5-VPoTOZ0o
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: usuario
+        meta:
+          id: fld_746a58f3e61c4fbdb8ea1750fa1646f2
+          created: 1750083076833
+          modified: 1750083076833
+          sortKey: -1748696161174
+        children:
+          - url: http://localhost:8080/users/criarMotorista
+            name: Motorista
+            meta:
+              id: req_102160ab8f7649c7ba85688633ca54ed
+              created: 1750083076834
+              modified: 1750282794202
+              isPrivate: false
+              sortKey: -1748224585687
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "nome": "Guilherme Motorista",
+                  "sobrenome": "Rufino",
+                  "email": "guilherme@exemplo.com",
+                  "senha": "senhaSegura123",
+                  "telefone": "(11) 91234-5678",
+                  "foto":"https://example.com/foto",
+                  "userTypeId": 3,
+                  "genderId": 2,
+                  "courseId": 3,
+                  "userAddressesDTO": {
+                		"cityId": 5270,
+                		"logradouro": "Rua dos Pinheiros",
+                		"numero": "123",
+                		"bairro": "Jardim Felicidade",
+                		"cep": "02326-005"
+                  },
+                  "vehicleDTO": {
+                    "modelo": "Meu Palio novo",
+                    "marca": "Honda",
+                    "placa": "11717171",
+                    "cor": "Preto",
+                    "ano": 2020,
+                		"vagas_disponiveis":2
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/users/criarPassageiro
+            name: Passageiro
+            meta:
+              id: req_3331fa4e70a9468ba596b7fcac4b6ca1
+              created: 1750083076835
+              modified: 1750352174408
+              isPrivate: false
+              sortKey: -1748159941203.5
+            method: POST
+            body:
+              mimeType: application/json
+              text: |+
+                {
+                  "nome": "Guilherme Passageiro",
+                  "sobrenome": "Rufino",
+                  "email": "guilherme.rufinnoo@edxemplo.com",
+                  "senha": "senhaSegura123",
+                  "telefone": "(11) 91234-5678",
+                  "foto": "https://example.com/foto.jpg",
+                  "userTypeId":1 ,
+                  "genderId": 2,
+                  "courseId": 3,
+                  "userAddressesDTO": {
+                		"cityId": 5270,
+                		"logradouro": "Rua dos Pinheiros",
+                		"numero": "123",
+                		"bairro": "Jardim Felicidade (Zona Norte)",
+                		"cep": "02326-005"
+                  }
+                }
+
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/users/login
+            name: login
+            meta:
+              id: req_72c7113d0e024e7884a41d71099d7adf
+              created: 1750083076836
+              modified: 1750352192257
+              isPrivate: false
+              sortKey: -1748224585787
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"email":"guilherme.rufinnoo@edxemplo.com",
+                	"senha":"senhaSegura123"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/users
+            name: Passageiro
+            meta:
+              id: req_19137adebf444bbab33263bf7d6ba814
+              created: 1750083076837
+              modified: 1750202974327
+              isPrivate: false
+              sortKey: -1748127618961.75
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "nome": "Guilherme",
+                  "sobrenome": "Rufino Campos",
+                  "email": "guilherme.rufinnoo@edxemplo.com",
+                  "senha": "senhaSegura123",
+                  "telefone": "(11) 91234-5678",
+                  "foto":"https://example.jpg",
+                  "userTypeId": 1,
+                  "genderId": 2,
+                  "courseId": 3
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjMiLCJleHAiOjE3NTAyMDk4OTZ9.r9MeCo2ujbitUIwNRxcFfYc5I9Mi3FkzbseNP074Uos
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/users
+            name: Passageiro
+            meta:
+              id: req_cab7f392e1224714897b79ea34d5435e
+              created: 1750083076838
+              modified: 1750282849289
+              isPrivate: false
+              sortKey: -1748111457840.875
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjYiLCJleHAiOjE3NTAyOTAwMzZ9.l1kIJvKMOlsxCSUIad0nZNPJkMuUUh1BtfpH59UOprc
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/users
+            name: Passageiro
+            meta:
+              id: req_d164918b3bf1448cb53711339e7f01d5
+              created: 1750083076840
+              modified: 1750083076840
+              isPrivate: false
+              sortKey: -1748103377280.4375
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjIiLCJleHAiOjE3NDg0MDQ3OTN9.HBtxqV1AMaLt_9Uq1kXB20Bh-pF3uMw4de-p91CPBEI
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: veiculos
+        meta:
+          id: fld_f1bf7114df664e09b385ab064adbac5c
+          created: 1750083076841
+          modified: 1750083076841
+          sortKey: -1748696161074
+        children:
+          - url: http://localhost:8080/veiculos
+            name: meus veiculos
+            meta:
+              id: req_49b5995c15fa485ca9c22bf6ffe38269
+              created: 1750083076842
+              modified: 1750083076842
+              isPrivate: false
+              sortKey: -1748391796371
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_848b1ab31b864d22a084aa242f5d1265
+              - id: pair_4870c330cc2d462d92afb9adc7162f3d
+                name: Bears
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY2Nhcm9uYSIsInN1YiI6ImFtYW5kYUBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjMwMTQxNn0.YmQ0gFc5r3pjxPdVnZHJuVrdgJf2ie2s7EQjN-NFmwk
+                disabled: false
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjQiLCJleHAiOjE3NDgzNzIwMzh9.0iFQj7lViiwgJ0RbLv7mwXPouXMRR-JsYyU3Q_XBK7A
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/veiculos/2
+            name: Meu veiculo especifico
+            meta:
+              id: req_e115b788968b4adc9934c4fe3f4cbee5
+              created: 1750083076843
+              modified: 1750083076843
+              isPrivate: false
+              sortKey: -1748391796771
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_848b1ab31b864d22a084aa242f5d1265
+              - id: pair_4870c330cc2d462d92afb9adc7162f3d
+                name: Bears
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY2Nhcm9uYSIsInN1YiI6ImFtYW5kYUBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjMwMTQxNn0.YmQ0gFc5r3pjxPdVnZHJuVrdgJf2ie2s7EQjN-NFmwk
+                disabled: false
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjQiLCJleHAiOjE3NDgzNzIwMzh9.0iFQj7lViiwgJ0RbLv7mwXPouXMRR-JsYyU3Q_XBK7A
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/veiculos/2
+            name: meus veiculos
+            meta:
+              id: req_fd9d2594a6b54e95aa9bc0736f3636b3
+              created: 1750083076844
+              modified: 1750171197672
+              isPrivate: false
+              sortKey: -1748391796671
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                	{
+                		"modelo": "Palio Atualizado",
+                		"marca": "Honda",
+                		"placa": "1717171",
+                		"cor": "Preto",
+                		"ano": 2020,
+                		"vagas_disponiveis":3
+                	}
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_848b1ab31b864d22a084aa242f5d1265
+              - id: pair_4870c330cc2d462d92afb9adc7162f3d
+                name: Bears
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY2Nhcm9uYSIsInN1YiI6ImFtYW5kYUBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjMwMTQxNn0.YmQ0gFc5r3pjxPdVnZHJuVrdgJf2ie2s7EQjN-NFmwk
+                disabled: false
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjQiLCJleHAiOjE3NDkyMjkzNTB9.ggC-QoVS0e7gzYAwEDsUVo04iv2BLDWjSdEyumRWaAg
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/veiculos
+            name: meus veiculos
+            meta:
+              id: req_1391339acbcc4b27a94c076b1862e503
+              created: 1750083076845
+              modified: 1750083076845
+              isPrivate: false
+              sortKey: -1748391796471
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                	{
+                		"modelo": "Meu novo carro",
+                		"marca": "Honda",
+                		"placa": "909090",
+                		"cor": "Preto",
+                		"ano": 2020,
+                		"vagas_disponiveis":2
+
+                	}
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_848b1ab31b864d22a084aa242f5d1265
+              - id: pair_4870c330cc2d462d92afb9adc7162f3d
+                name: Bears
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY2Nhcm9uYSIsInN1YiI6ImFtYW5kYUBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjMwMTQxNn0.YmQ0gFc5r3pjxPdVnZHJuVrdgJf2ie2s7EQjN-NFmwk
+                disabled: false
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjQiLCJleHAiOjE3NDkyMjkzNTB9.ggC-QoVS0e7gzYAwEDsUVo04iv2BLDWjSdEyumRWaAg
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/veiculos/3
+            name: meus veiculos
+            meta:
+              id: req_49d582ae676b46e195a9571c2a1a3a1c
+              created: 1750083076847
+              modified: 1750083076847
+              isPrivate: false
+              sortKey: -1748391796571
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+                id: pair_848b1ab31b864d22a084aa242f5d1265
+              - id: pair_4870c330cc2d462d92afb9adc7162f3d
+                name: Bears
+                value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY2Nhcm9uYSIsInN1YiI6ImFtYW5kYUBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjMwMTQxNn0.YmQ0gFc5r3pjxPdVnZHJuVrdgJf2ie2s7EQjN-NFmwk
+                disabled: false
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjQiLCJleHAiOjE3NDgzNzIwMzh9.0iFQj7lViiwgJ0RbLv7mwXPouXMRR-JsYyU3Q_XBK7A
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: caronas
+        meta:
+          id: fld_40503b05b00940ae8326db88cfdc42ea
+          created: 1750083076849
+          modified: 1750083076849
+          sortKey: -1748696160874
+        children:
+          - url: http://localhost:8080/rides
+            name: New Request
+            meta:
+              id: req_34e99c73cded4d1fa2f2649ab44648a2
+              created: 1750083076850
+              modified: 1750352113973
+              isPrivate: false
+              sortKey: -1748462990722
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "originDTO": {
+                    "cidade": "Cotia",
+                    "logradouro": "Rua José Fogliano",
+                    "numero": "1345",
+                    "bairro": "Parque Alexandre",
+                    "cep": "06714-290"
+                  },
+                  "destinationDTO": {
+                    "cidade": "Osasco",
+                    "logradouro": "Rua Antônio Agu",
+                    "numero": "400",
+                    "bairro": "Centro",
+                    "cep": "06013-000"
+                  },
+                  "vagas_disponiveis": 2,
+                  "id_veiculo": 2
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjIiLCJleHAiOjE3NTAzNTkyODh9.NZagr4-FoLQpCviqvkwEIYgTdVDtAX0PN0FvuBfY0DA
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/rides/concluidas?pagina=0&itens=5
+            name: historico concluido
+            meta:
+              id: req_4afb92ae24224400b5f23703981a5501
+              created: 1750083076851
+              modified: 1750083076851
+              isPrivate: false
+              sortKey: -1748409595258.75
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjUiLCJleHAiOjE3NDg2MTYxODF9.0CwIon19uYEa-cPp85DsBvDxM28d4OvKiDLkr2TGTgg
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/rides/corridasAtivas
+            name: Minhas caronas ativas
+            meta:
+              id: req_8e861280b6814787a37adb068df7162c
+              created: 1750083076853
+              modified: 1750083076853
+              isPrivate: false
+              sortKey: -1748418494502.625
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjUiLCJleHAiOjE3NDg2MjM1MDN9.xoBhO-AoMORCMNIpantYchflHr0wUFlIxY8Wpo3bU4M
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/rides/cancelar/1
+            name: cancelar
+            meta:
+              id: req_63b65652bb8d43c08aa8d116a6385652
+              created: 1750083076854
+              modified: 1750083076854
+              isPrivate: false
+              sortKey: -1748414044880.6875
+            method: PUT
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjUiLCJleHAiOjE3NDg2MzI5MzN9.rE8N1j9ab5aAkcYN0_ifLKKCaNp15VW4xM42yd8MBjE
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - name: Mudar rota
+            meta:
+              id: req_d1901dd16c7c4f068bcef4f895d80e62
+              created: 1750083076855
+              modified: 1750083076855
+              isPrivate: false
+              sortKey: -1748626076773
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/rides/1
+            name: atualizar a carona atual
+            meta:
+              id: req_866fd614bf794c4d8570fa56df14fb2b
+              created: 1750083076856
+              modified: 1750083076856
+              isPrivate: false
+              sortKey: -1748440742612.3125
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |+
+                {
+                  "originDTO": {
+                    "cidade": "Cotia",
+                    "logradouro": "Rua José Fogliano",
+                    "numero": "1345",
+                    "bairro": "Parque Alexandre",
+                    "cep": "06714-290"
+                  },
+                  "destinationDTO": {
+                    "cidade": "São Paulo",
+                    "logradouro": "Rua M.M.D.C.",
+                    "numero": "400",
+                    "bairro": "Butantã",
+                    "cep": "05510-021"
+                  },
+                  "vagas_disponiveis": 3,
+                  "id_veiculo": 1
+                }
+
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjEiLCJleHAiOjE3NDg2NTc0Nzd9.JKdNA6SH_U1zpuqTJoOdPzfsD9DjxY7C5PZDuzK0bwQ
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Adress
+        meta:
+          id: fld_cd0bf54c98b54987b2fbb700f4df91e1
+          created: 1750083076857
+          modified: 1750083076857
+          sortKey: -1748696160974
+        children:
+          - url: http://localhost:8080/address
+            name: meu endereco
+            meta:
+              id: req_8c18ba1dc74b42a5a2e399ab442e93c1
+              created: 1750083076858
+              modified: 1750083076858
+              isPrivate: false
+              sortKey: -1748616159244
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjUiLCJleHAiOjE3NDg2MjM1MDN9.xoBhO-AoMORCMNIpantYchflHr0wUFlIxY8Wpo3bU4M
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/address/1
+            name: meu endereco
+            meta:
+              id: req_b53ab5e2c92f4d5b84a419763973b3f0
+              created: 1750083076859
+              modified: 1750083076859
+              isPrivate: false
+              sortKey: -1748539574983
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "logradouro": "Rua Tapes",
+                  "numero": "123",
+                  "bairro": "Granja Viana",
+                  "cep": "06709-035",
+                  "cityId": 4851
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjUiLCJleHAiOjE3NDg2MjM1MDN9.xoBhO-AoMORCMNIpantYchflHr0wUFlIxY8Wpo3bU4M
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Solicitações
+        meta:
+          id: fld_cdaa9a9cb9744b4fb1c5405e195a57e8
+          created: 1750083076861
+          modified: 1750083076861
+          sortKey: -1749262198844
+        children:
+          - url: http://localhost:8080/solicitacao/proximos
+            name: proximos
+            meta:
+              id: req_7e2d2527ac8a414d80d3ba2702bcb600
+              created: 1750083076862
+              modified: 1750279780404
+              isPrivate: false
+              sortKey: -1749262203604
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "latitudeOrigem": -23.5977136,
+                  "longitudeOrigem": -46.8755815,
+                  "latitudeDestino": -23.5345919,
+                  "longitudeDestino": -46.7797738
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              prefix: Bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjMiLCJleHAiOjE3NTAyODU0MjV9.70LVtnxscMTaLpnef_viu05l-Gkw8SwErNa51GmJglk
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/solicitacao
+            name: New Request
+            meta:
+              id: req_f806865868744020809cb99f8a8e425f
+              created: 1750083076863
+              modified: 1750352218353
+              isPrivate: false
+              sortKey: -1749327548129
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{
+
+                \  \"originDTO\": {
+
+                \    \"cidade\": \"Cotia\",
+
+                \    \"logradouro\": \"Rua José Fogliano\",
+
+                \    \"numero\": \"1345\",
+
+                \    \"bairro\": \"Parque Alexandre\",
+
+                \    \"cep\": \"06714-290\"
+
+                \  },
+
+                \  \"destinationDTO\": {
+
+                \    \"cidade\": \"Osasco\",
+
+                \    \"logradouro\": \"Rua Antônio Agu\",
+
+                \    \"numero\": \"400\",
+
+                \    \"bairro\": \"Centro\",
+
+                \    \"cep\": \"06013-000\"
+
+                \  },
+
+                \  \"id_carona\":2
+
+                }
+
+                \t"
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjMiLCJleHAiOjE3NTAzNTkzOTN9.aL0dE6HFfTqRsY4nMhDoRD47e9fQRFPsEV2Oyf9jbAw
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/solicitacao/cancelar/2
+            name: New Request
+            meta:
+              id: req_6a40e4a393244e078f291b0c27dd2504
+              created: 1750083076865
+              modified: 1750264883550
+              isPrivate: false
+              sortKey: -1749487979510
+            method: PUT
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjMiLCJleHAiOjE3NTAyNzIwNDJ9.yptsJqe-8RVs9BL6pv7pVDsUtHYcvwOXs5-VPoTOZ0o
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/solicitacao/concluidas?pagina=0&itens=1
+            name: solicitacoes concluidas
+            meta:
+              id: req_a59b213447dd4ac786c5c7de02851d6a
+              created: 1750200950970
+              modified: 1750264894156
+              isPrivate: false
+              sortKey: -1749487979610
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjMiLCJleHAiOjE3NTAyNzIwNDJ9.yptsJqe-8RVs9BL6pv7pVDsUtHYcvwOXs5-VPoTOZ0o
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/solicitacao/pending
+            name: solicitacoes pendente
+            meta:
+              id: req_cefa53e45945409aae8c132b908fec43
+              created: 1750351840872
+              modified: 1750352249672
+              isPrivate: false
+              sortKey: -1749487979560
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjMiLCJleHAiOjE3NTAzNTkzOTN9.aL0dE6HFfTqRsY4nMhDoRD47e9fQRFPsEV2Oyf9jbAw
+              prefix: Bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_8f508f5ecf644b99b4ec58c5057a595a
+    created: 1750083076739
+    modified: 1750083076739
+  cookies:
+    - key: JSESSIONID
+      value: FFDF9039745EC080182D3F3C130E7D40
+      domain: localhost
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-04-16T20:38:39.122Z
+      lastAccessed: 2025-04-16T20:46:11.440Z
+      id: ec2ec679-abf8-4ace-b852-d04b25b41e4e
+environments:
+  name: Base Environment
+  meta:
+    id: env_9e642aa728164be7b484f489227e19f5
+    created: 1750083076734
+    modified: 1750083076734
+    isPrivate: false

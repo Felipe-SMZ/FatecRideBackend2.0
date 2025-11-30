@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat WebSocket</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        max-width: 600px;
+        margin: auto;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      #conversas {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+      }
+
+      .msg {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+        word-wrap: break-word;
+      }
+
+      .msg.enviada {
+        background: #d1e7dd;
+        margin-left: auto;
+      }
+
+      .msg.recebida {
+        background: #e2e3e5;
+        margin-right: auto;
+      }
+
+      form {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ccc;
+      }
+
+      input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        border: none;
+        background: #0d6efd;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0b5ed7;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div id="conversas"></div>
+      <form id="form">
+        <input type="text" id="input" placeholder="Digite sua mensagem..." />
+        <button type="button" id="button-enviar">Enviar</button>
+      </form>
+    </main>
+
+    <script>
+      // ✅ Coloca aqui o token JWT do usuário logado
+      const TOKEN =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYXRlY0NhckNhcm9uYSIsInN1YiI6IjIiLCJleHAiOjE3NjIwNDcwMzd9.VvFIXGBgti0pG9QCYP_RY099kpfvu55LCnm-i-HmgtM";
+
+      // ✅ ID do destinatário
+      const RECEIVER_ID = 3;
+
+      const conversasDiv = document.getElementById("conversas");
+      const input = document.getElementById("input");
+      const buttonEnviar = document.getElementById("button-enviar");
+
+      // 🔗 Cria conexão WebSocket
+      const socket = new WebSocket(`ws://localhost:9000`, TOKEN);
+
+      socket.addEventListener("open", () => {
+        console.log("✅ Conectado ao servidor WebSocket!");
+      });
+
+      socket.addEventListener("close", (event) => {
+        console.log("🔌 Conexão encerrada:", event.reason);
+      });
+
+      socket.addEventListener("error", (event) => {
+        console.error("❌ Erro no WebSocket:", event);
+      });
+
+      // 📨 Recebe mensagens do servidor
+      socket.addEventListener("message", (event) => {
+        try {
+          const msg = JSON.parse(event.data);
+
+          if (msg.sucesso && msg.tipo === "mensagem_recebida") {
+            // Mensagem recebida de outro usuário
+            mostrarMensagem(msg.mensagem.message, "recebida");
+          } else if (msg.sucesso && msg.tipo === "mensagem_confirmada") {
+            // Confirmação do servidor
+            console.log("💾", msg.mensagem);
+          } else if (!msg.sucesso) {
+            // Caso tenha dado erro
+            mostrarMensagem("⚠️ " + msg.erro, "erro");
+          }
+        } catch (error) {
+          console.error("Erro ao processar mensagem:", error);
+        }
+      });
+
+      // 🧩 Enviar mensagem ao clicar
+      buttonEnviar.addEventListener("click", () => {
+        const texto = input.value.trim();
+        if (texto.length === 0) return;
+
+        const data = new Date();
+
+        const mensagem = {
+          receiver: RECEIVER_ID,
+          data,
+          message: texto,
+          id_solicitacao: 1,
+        };
+
+        try {
+          socket.send(JSON.stringify(mensagem));
+          mostrarMensagem(texto, "enviada");
+          input.value = "";
+        } catch (error) {
+          mostrarMensagem("Erro ao enviar: " + error.message, "erro");
+        }
+      });
+
+      // 💬 Função para exibir mensagens na tela
+      function mostrarMensagem(texto, tipo) {
+        const div = document.createElement("div");
+        div.classList.add("msg");
+        div.textContent = texto;
+
+        if (tipo === "enviada") div.classList.add("enviada");
+        else if (tipo === "recebida") div.classList.add("recebida");
+        else div.style.color = "red"; // erro
+
+        conversasDiv.appendChild(div);
+        conversasDiv.scrollTop = conversasDiv.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
