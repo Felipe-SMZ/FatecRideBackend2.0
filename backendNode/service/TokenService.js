@@ -2,8 +2,6 @@ const jwt = require("jsonwebtoken");
 require('dotenv').config()
 
 const  gerarToken = (payload)=>{  
-    console.log("JWT_SECRET:", process.env.SECRET);
-
     const token = jwt.sign(payload,process.env.SECRET,{expiresIn:"1h"})
     return token
 }

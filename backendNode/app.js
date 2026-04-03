@@ -1,11 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const helmet = require("helmet");
 const connectMongo = require("./database/mongo");
 
 const cors = require("cors")
 const  swaggerUI = require("swagger-ui-express");
 const swaggerDocs = require("./swagger.json")
 const app =  express()
+
+// Headers de segurança com Helmet
+app.use(helmet());
 
 app.use(cors({
     origin:"*",
