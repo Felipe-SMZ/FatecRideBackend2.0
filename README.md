@@ -1,212 +1,316 @@
-  # 🛺 Fatec Carona
-  
-  **Fatec Carona** é um aplicativo web desenvolvido como parte do Projeto Integrador da FATEC Cotia. O objetivo é facilitar o transporte dos alunos, permitindo que eles ofereçam ou encontrem caronas entre si, promovendo economia, praticidade e colaboração.
-  
-  ---
-  
-  ## 🎯 Objetivos
-  
-  O projeto tem como finalidade:
-  
-  - Ajudar alunos da FATEC com questões de mobilidade urbana;
-  - Estimular o uso compartilhado de veículos;
-  - Promover uma rede de apoio entre os estudantes da instituição.
-  
-  ---
-  
-  ## 🛠 Tecnologias Utilizadas
-  
-  - **Back-end:** Java + Spring Boot  
-  - **Autenticação:** JWT (JSON Web Token)  
-  - **Banco de Dados:** MySQL (MySQL Workbench)
-  - **LOOMBOK**
-  - **APIs Externas:**  
-    - [OpenStreetMap](https://www.openstreetmap.org/) (para mapeamento e rotas)  
-    - [ViaCEP](https://viacep.com.br/) (para consulta de endereços via CEP)  
-  
-  > ⚠️ **Atenção:**  
-  > A API do OpenStreetMap é open source e colaborativa, ou seja, os próprios usuários alimentam a base de dados.  
-  > Por isso, pode acontecer de alguns endereços não serem encontrados, o que pode impactar a experiência na aplicação.
-  
-  ---
+# 🚗 FatecRide — Backend
 
-  ## 🚀 Como Rodar o Projeto
-  
-  ### 1. Instalar o Lombok
-  
-  O projeto utiliza **Lombok** para reduzir a verbosidade do código Java. Para configurar corretamente:
-  
-  🔗 Acesse este tutorial:  
-  
-  ### [Gustavo Furtado de Oliveira Alves](https://dicasdeprogramacao.com.br/autor/gustavo-furtado-de-oliveira-alves/)[{ Dicas de Java }](https://dicasdeprogramacao.com.br/categoria/dicas-de-java/)[2 Comentários](https://dicasdeprogramacao.com.br/como-configurar-o-lombok-no-eclipse/#disqus_thread)
-  
-  ### 2. Importar o Projeto
-  
-  - Importe como projeto **Maven** na sua IDE (Eclipse, IntelliJ, etc.).
-  - Certifique-se de que as dependências sejam baixadas corretamente.
-  
-  
-  📷 Exemplo:  
-  ![image](https://github.com/user-attachments/assets/5944dc98-3d21-4bb1-8218-81a351551a8c)
-  
-  
-  - **OBS:** por causa do Lommbok pode ser necessário reiniciar a máquina para que as configurações surtam efeito.
-  
-    
-### 3. Configurar o Banco de Dados
-
-- Execute o script `NovoBanco.sql`, disponível neste repositório, para criar o banco de dados.
-- **Observação:** Este projeto utiliza **MySQL** e foi desenvolvido utilizando o **MySQL Workbench**.
-  - Para que a aplicação funcione corretamente, configure a senha do seu banco de dados no arquivo `application.properties` do projeto Java.
-
-### 4. Iniciar o Projeto
-
-- Com o banco de dados configurado e o **Lombok** instalado, inicie a aplicação pela **classe principal do Spring Boot**.
+API REST do sistema de caronas da Fatec, com autenticação JWT, gestão de usuários, veículos, caronas e agendamento recorrente.
 
 ---
 
-## Acessar a Documentação da API
+## Sumário
 
-Após a aplicação ser iniciada corretamente, acesse a documentação da API através do Swagger no seguinte endereço:
+- [Visão Geral](#visão-geral)
+- [Tecnologias](#tecnologias)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Configuração do Ambiente](#configuração-do-ambiente)
+- [Como Executar](#como-executar)
+- [Autenticação](#autenticação)
+- [Agendamento de Caronas](#agendamento-de-caronas)
+- [Endpoints](#endpoints)
+- [Fluxo de Teste (Insomnia)](#fluxo-de-teste-insomnia)
+- [Observações Técnicas](#observações-técnicas)
+- [Swagger / OpenAPI](#swagger--openapi)
+- [Autores](#autores)
 
-[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+---
 
+## Visão Geral
 
+O FatecRide Backend fornece a infraestrutura para:
 
-  # a seguir json que foram testados
-  ### 📌 Primeiro Passo: Criar um Usuário
-  
-  Você pode criar usuários dos tipos **motorista** ou **passageiro**.
-  
-  ### 🚗 Criar Motorista
-  
-  URL para motorista 
-  Post "http://localhost:8080/users/criarMotorista"
-  
-  Exemplo de JSON:
-  
-  ![image](https://github.com/user-attachments/assets/f26eb761-38aa-4ac6-b0e4-53d84fc719f8)
-  
-  
-  url para passageiro
-  
-  Post "http://localhost:8080/users/criarPassageiro"
-  
-  Exemplo de JSON:
-  
-  | Exemplo de Requisição | JSON Exemplo |
-  |-----------------------|--------------|
-  | ![image](https://github.com/user-attachments/assets/43b01bc0-d4d2-4d7e-941b-baba80ae69f6) | {<br> "nome": "Guilherme Passageiro",<br> "sobrenome": "Rufino",<br> "email": "guilherme.rufinnoo@edxemplo.com",<br> "senha": "senhaSegura123",<br> "telefone": "(11) 91234-5678",<br> "foto": "https://example.com/foto.jpg",<br> "userTypeId": 1,<br> "genderId": 2,<br> "courseId": 3,<br> "userAddressesDTO": {<br> &nbsp;&nbsp;"cityId": 5095,<br> &nbsp;&nbsp;"logradouro": "Rua Raquel de Queiroz",<br> &nbsp;&nbsp;"numero": "123",<br> &nbsp;&nbsp;"bairro": "Santa Maria",<br> &nbsp;&nbsp;"cep": "06149-340"<br> }<br>} |
-  
-  
-  
-  ### Login 
-  > ⚠️ **Atenção:**  
-  > nessa rota você receberá um token que será que ser usado em todas as api
-  
-  URL  para logar na aplicação
-  Post "http://localhost:8080/users/login"
-  
-  Exemplo de JSON:
-  
-  | Exemplo de Requisição | JSON Exemplo |
-  |-----------------------|--------------|
-  | ![image](https://github.com/user-attachments/assets/4022930d-674d-405a-89cd-83944572d2ce) | {<br> "email": "guilherme.rufinnoo@edxemplo.com",<br> "senha": "senhaSegura123"<br>} |
-  
-   
-  ### delete
-  Url
-  Delete "http://localhost:8080/users"
-  
-  Token como Bearer
-  
-  ![image](https://github.com/user-attachments/assets/d856568f-e3cb-4843-b322-931681382b07)
-  
-  
-  
-  ### Atualizar
-  Url
-  Put "http://localhost:8080/users"
-  
-  | Exemplo de Requisição | JSON Exemplo |
-  |-----------------------|--------------|
-  |![image](https://github.com/user-attachments/assets/af76f2fb-e7be-40bf-a1ab-38bd9079ed84)| {<br> "nome": "Guilherme", <br> "sobrenome": "Rufino Campos", <br> "email": "guilherme@edxemplo.com", <br>  "senha": "senhaSegura123", <br>  "telefone": "(11) 91234-5678", <br>  "foto":"https://example.jpg",<br>  "userTypeId": 1, <br>  "genderId": 2, <br>  "courseId": 3 <br>}|
-  
-  
-  
-  ## 🚗 Veículos
-  Todoso os veiculos
-  
-  URL
-  GET http://localhost:8080/veiculos
-  
-  Veiculo especifico do usuario
-  
-  URL 
-  GET "http://localhost:8080/veiculos/{id}"
-  
-  Deletar Veiculo
-  
-  URL
-  Delete "http://localhost:8080/veiculos/3"
-  
-  
-  Cadastrar novo veiculo 
-  URL
-  POST "http://localhost:8080/veiculos"
-  | Exemplo de Requisição | JSON Exemplo |
-  |-----------------------|--------------|
-  | ![image](https://github.com/user-attachments/assets/06a320e3-413b-406f-868a-25a25d36a42e)| 	{ "modelo": "Meu novo carro", <br> "marca": "Honda", <br> "placa": "909090", <br> "cor": "Preto", <br> "ano": 2020, <br> "vagas_disponiveis":2 <br>}
-  
-  
-  
-  Atualizar veiculo
-  
-  URl
-  Put "http://localhost:8080/veiculos/{id}"
-  | Exemplo de Requisição | JSON Exemplo |
-  |-----------------------|--------------|
-  | ![image](https://github.com/user-attachments/assets/06a320e3-413b-406f-868a-25a25d36a42e)| 	{ "modelo": "Palio Atualizado", <br> "marca": "Honda", <br> "placa": "909090", <br> "cor": "Preto", <br> "ano": 2020, <br> "vagas_disponiveis":2 <br>}
-  
-  
-  🏠 Endereços
-  
-  Buscar Endereço do Usuário
+- Cadastro e autenticação de usuários (motorista / passageiro)
+- Gerenciamento de perfil, endereço e veículos
+- Criação, atualização e finalização de caronas
+- Solicitação de carona por passageiros
+- Agendamento recorrente de caronas (por dia da semana ou intervalo de dias)
+- Scheduler diário que materializa automaticamente as caronas agendadas
 
-  
-  URL
-  GET "http://localhost:8080/address" 
+---
 
-  
-  Atualizar Endereço
-  
-  Url
-  Put "http://localhost:8080/address/{id_endereco}"
-  | Exemplo de Requisição | JSON Exemplo |
-  |-----------------------|--------------|
-  |![image](https://github.com/user-attachments/assets/700fbf9a-a99a-4b0b-8c6f-e96e90a461cf) |{ <br>  "logradouro": "Rua Tapes", <br>  "numero": "123", <br>  "bairro": "Granja Viana", <br>  "cep": "06709-035", <br>  "cityId": 4851 <br> }
+## Tecnologias
 
+| Tecnologia | Versão |
+|---|---|
+| Java | 21 |
+| Spring Boot | 3.5.0 |
+| Spring Security | — |
+| Spring Data JPA / Hibernate | — |
+| Spring WebFlux | — |
+| MySQL | 8.x |
+| JWT (`com.auth0:java-jwt`) | 4.4.0 |
+| Lombok | — |
+| Springdoc OpenAPI (Swagger) | 2.8.9 |
 
+---
 
-  CEP
+## Estrutura do Projeto
 
-  URL 
+```
+src/main/java/com/example/fatecCarCarona/
+├── controller/     → Endpoints REST
+├── service/        → Regras de negócio
+├── repository/     → Acesso a dados (Spring Data JPA)
+├── entity/         → Entidades do banco de dados
+├── dto/            → Contratos de entrada e saída
+├── scheduler/      → Jobs agendados (cron diário)
+├── config/         → Configurações gerais
+└── infra/          → Segurança, filtros e infraestrutura
+```
 
-  http://localhost:8080/cep/{numeroCep}
+Classe principal: `FatecCarCaronaApplication.java` (anotada com `@EnableScheduling`)
 
+---
 
-  Buscar dados da rua
+## Configuração do Ambiente
 
-  http://localhost:8080/local?local={Rua z Cidade x}
+### Pré-requisitos
 
-  
-  ## 👨‍💻 Autores
-  
-  **Equipe FatecRide**  
-- [Felipe SMZ](https://github.com/Felipe-SMZ)  
-- [Marcos Santos](https://github.com/MarcosVVSantos)  
-- [Guilherme Rufino](https://github.com/rufinoguilherme633)  
+- Java 21
+- MySQL 8.x rodando localmente
+- Maven (ou use o wrapper `mvnw`)
 
-  
-  
-  
+> ⚠️ **Atenção ao nome do banco:** use sempre **letras minúsculas** para evitar incompatibilidades entre sistemas operacionais. O MySQL no Windows é case-insensitive, mas no Linux não é.
+
+### 1. Criar o banco de dados
+
+No MySQL Workbench ou terminal, execute:
+
+```sql
+CREATE DATABASE backendfatecarona;
+```
+
+### 2. Configurar o `application.properties`
+
+Arquivo em `src/main/resources/application.properties`:
+
+```properties
+spring.application.name=fatecCarCarona
+
+spring.datasource.url=jdbc:mysql://localhost:3306/backendfatecarona
+spring.datasource.username=root
+spring.datasource.password=root
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+api.security.token.secret=my-secret-key-from-video
+```
+
+> 🔒 **Em produção:** substitua as credenciais e o secret JWT por variáveis de ambiente. Nunca comite senhas reais no repositório.
+
+---
+
+## Como Executar
+
+### Windows (PowerShell)
+
+```powershell
+# Build
+.\mvnw.cmd clean install -DskipTests
+
+# Rodar
+.\mvnw.cmd spring-boot:run
+```
+
+### Linux / macOS
+
+```bash
+./mvnw clean install -DskipTests
+./mvnw spring-boot:run
+```
+
+A API sobe em: **`http://localhost:8080`**
+
+> ⚠️ **Problema com espaço no caminho (Windows):** se o seu usuário do Windows tiver espaço no nome (ex: `C:\Users\Felipe S\`), o Maven pode falhar. Nesse caso, mova o projeto para um caminho sem espaços (ex: `C:\DEV\FatecRide\`) e configure o repositório `.m2` também fora da pasta do usuário em `File > Settings > Maven > Local repository` no IntelliJ.
+
+---
+
+## Autenticação
+
+A API usa **JWT (Bearer Token)**. O token é obtido no login e deve ser enviado em todas as requisições protegidas:
+
+```http
+Authorization: Bearer <token>
+```
+
+**Obter token:**
+```http
+POST /users/login
+Content-Type: application/json
+
+{
+  "email": "usuario@fatec.sp.gov.br",
+  "password": "senha123"
+}
+```
+
+---
+
+## Agendamento de Caronas
+
+### Por dia da semana
+
+```http
+POST /agendar-ride-dia-semana
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "ride": 10,
+  "dia_semana_agendamento": [1, 3, 5]
+}
+```
+
+> Os IDs dos dias da semana podem ser consultados em `GET /dias-semanas`.
+
+### Por intervalo de dias
+
+```http
+POST /agendar-compromisso-intervalo-dias
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "ride": 10,
+  "dataInicio": "2026-04-03",
+  "intervalo_dias": 2
+}
+```
+
+> Os intervalos disponíveis podem ser consultados em `GET /intervalos-dias`.
+
+### Scheduler automático
+
+Um job com cron diário (`00:00`) em `SchedulerService`:
+- Busca todos os agendamentos ativos
+- Cria uma nova carona copiando os dados da carona base
+- Atualiza o status dos agendamentos quando necessário
+
+---
+
+## Endpoints
+
+### Públicos (sem autenticação)
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/users/criarMotorista` | Cadastrar motorista |
+| POST | `/users/criarPassageiro` | Cadastrar passageiro |
+| POST | `/users/login` | Autenticar e obter token |
+| GET | `/userType` | Listar tipos de usuário |
+| GET | `/courses` | Listar cursos |
+| GET | `/genders` | Listar gêneros |
+| GET | `/states` | Listar estados |
+| GET | `/states/{id}` | Buscar estado por ID |
+| GET | `/cities/{id_estado}` | Listar cidades do estado |
+| GET | `/cep/{cep}` | Consultar endereço por CEP |
+
+### Protegidos (requer `Authorization: Bearer <token>`)
+
+#### Usuário
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/users` | Buscar dados do usuário logado |
+| PUT | `/users` | Atualizar dados do usuário |
+| DELETE | `/users` | Deletar conta |
+
+#### Endereço
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/address` | Buscar endereço do usuário |
+| PUT | `/address/{idAddres}` | Atualizar endereço |
+
+#### Veículos
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/veiculos` | Listar veículos do motorista |
+| GET | `/veiculos/{id}` | Buscar veículo por ID |
+| POST | `/veiculos` | Cadastrar veículo |
+| PUT | `/veiculos/{id}` | Atualizar veículo |
+| DELETE | `/veiculos/{id}` | Remover veículo |
+
+#### Caronas
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/rides` | Criar carona |
+| GET | `/rides/corridasAtivas` | Listar caronas ativas |
+| GET | `/rides/concluidas` | Listar caronas concluídas |
+| PUT | `/rides/{rideId}` | Atualizar carona |
+| GET | `/rides/requestsForMyRide` | Ver solicitações recebidas |
+| PUT | `/rides/{idSolicitacao}/acept` | Aceitar solicitação |
+| PUT | `/rides/finalizar/{rideId}` | Finalizar carona |
+
+#### Solicitações
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/solicitacao/proximos` | Buscar caronas próximas |
+| POST | `/solicitacao` | Solicitar carona |
+| PUT | `/solicitacao/cancelar/{id}` | Cancelar solicitação |
+| GET | `/solicitacao/concluidas` | Listar solicitações concluídas |
+| GET | `/solicitacao/pending` | Listar solicitações pendentes |
+
+#### Agendamento
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/dias-semanas` | Listar dias da semana disponíveis |
+| GET | `/intervalos-dias` | Listar intervalos disponíveis |
+| POST | `/agendar-ride-dia-semana` | Agendar por dia da semana |
+| PUT | `/agendar-ride-dia-semana/desativar/{id}` | Desativar agendamento por dia |
+| POST | `/agendar-compromisso-intervalo-dias` | Agendar por intervalo |
+| PUT | `/agendar-compromisso-intervalo-dias/desativar/{id}` | Desativar agendamento por intervalo |
+
+#### Geolocalização
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/local?local=<texto>` | Buscar localização por texto |
+
+---
+
+## Fluxo de Teste (Insomnia)
+
+Sequência recomendada para testar o fluxo completo:
+
+1. **Login** → `POST /users/login` → salvar o `token` retornado
+2. **Listar veículos** → `GET /veiculos` (com token)
+3. **Criar carona** → `POST /rides` (com token)
+4. **Buscar caronas ativas** → `GET /rides/corridasAtivas` → anotar o `id` da carona
+5. **Consultar catálogos** → `GET /dias-semanas` e `GET /intervalos-dias`
+6. **Criar agendamento** → `POST /agendar-ride-dia-semana` ou `POST /agendar-compromisso-intervalo-dias`
+7. **Validar** → após a execução do scheduler diário (00:00), verificar as novas caronas geradas em `/rides/corridasAtivas`
+
+---
+
+## Observações Técnicas
+
+- **Scheduler:** o job diário em `SchedulerService` é responsável por criar as caronas recorrentes. Em ambiente de desenvolvimento, pode ser necessário ajustar o horário do cron para testar.
+- **Tabela `origens`:** a entidade `Origin` é mapeada nessa tabela com os campos `id_origem`, `id_cidade`, `logradouro`, `numero`, `bairro`, `cep`, `latitude` e `longitude`.
+- **Dados de domínio:** em um banco recém-criado, algumas funcionalidades dependem de registros base nas tabelas auxiliares (`dia_semana`, `intervalo_dias`, `status_carona`, `tipo_usuario`, etc.). Certifique-se de populá-las antes de testar.
+- **Convenção de nomes:** sempre use letras minúsculas para o nome do banco (`backendfatecarona`) e mantenha consistente entre todos os membros do time para evitar erros de conexão.
+
+---
+
+## Swagger / OpenAPI
+
+Com a API em execução, acesse a documentação interativa:
+
+- **Interface:** `http://localhost:8080/swagger-ui/index.html`
+- **JSON:** `http://localhost:8080/v3/api-docs`
+
+---
+
+## Autores
+
+**Equipe FatecRide**
+
+| Nome | GitHub |
+|---|---|
+| Felipe SMZ | [@Felipe-SMZ](https://github.com/Felipe-SMZ) |
+| Marcos Santos | [@MarcosVVSantos](https://github.com/MarcosVVSantos) |
+| Guilherme Rufino | [@rufinoguilherme633](https://github.com/rufinoguilherme633) |

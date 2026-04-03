@@ -1,7 +1,7 @@
 # Criação do Banco de Dados
-CREATE DATABASE backendFateCarona;
-USE backendFateCarona;
-#drop database backendFateCarona;
+CREATE DATABASE backendFatecCarona;
+USE backendFatecCarona;
+#drop database backendFatecCarona;
 create table estados(
    `id_estado` BIGINT NOT NULL,
   `nome` varchar(75) DEFAULT NULL,

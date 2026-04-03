@@ -10,7 +10,6 @@ const WebSocket = require("ws");
 const http = require("http");
 const User = require("./models/mysqlmodels/User");
 const MensagensSchema = require("./models/mongodbmodels/MensagensSchema"); // importa o model
-const { Json } = require("sequelize/lib/utils");
 
 const app = express();
 
