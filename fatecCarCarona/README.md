@@ -15,8 +15,8 @@ API REST do sistema de caronas da Fatec, com autenticação JWT, gestão de usu�
 - [Agendamento de Caronas](#agendamento-de-caronas)
 - [Endpoints](#endpoints)
 - [Fluxo de Teste (Insomnia)](#fluxo-de-teste-insomnia)
-- [Observações Técnicas](#observações-técnicas)
 - [Swagger / OpenAPI](#swagger--openapi)
+- [Observações Técnicas](#observações-técnicas)
 - [Autores](#autores)
 
 ---
@@ -92,14 +92,11 @@ Arquivo em `src/main/resources/application.properties`:
 
 ```properties
 spring.application.name=fatecCarCarona
-
 spring.datasource.url=jdbc:mysql://localhost:3306/backendfatecarona
 spring.datasource.username=root
 spring.datasource.password=root
-
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
-
 api.security.token.secret=my-secret-key-from-video
 ```
 
@@ -114,7 +111,6 @@ api.security.token.secret=my-secret-key-from-video
 ```powershell
 # Build
 .\mvnw.cmd clean install -DskipTests
-
 # Rodar
 .\mvnw.cmd spring-boot:run
 ```
@@ -144,7 +140,6 @@ Authorization: Bearer <token>
 ```http
 POST /users/login
 Content-Type: application/json
-
 {
   "email": "usuario@fatec.sp.gov.br",
   "password": "senha123"
@@ -161,13 +156,11 @@ Content-Type: application/json
 POST /agendar-ride-dia-semana
 Authorization: Bearer <token>
 Content-Type: application/json
-
 {
   "ride": 10,
   "dia_semana_agendamento": [1, 3, 5]
 }
 ```
-
 > Os IDs dos dias da semana podem ser consultados em `GET /dias-semanas`.
 
 ### Por intervalo de dias
@@ -176,14 +169,12 @@ Content-Type: application/json
 POST /agendar-compromisso-intervalo-dias
 Authorization: Bearer <token>
 Content-Type: application/json
-
 {
   "ride": 10,
   "dataInicio": "2026-04-03",
   "intervalo_dias": 2
 }
 ```
-
 > Os intervalos disponíveis podem ser consultados em `GET /intervalos-dias`.
 
 ### Scheduler automático
@@ -287,6 +278,17 @@ Sequência recomendada para testar o fluxo completo:
 
 ---
 
+## Swagger / OpenAPI
+
+Com a API em execução, acesse a documentação interativa:
+
+- **Interface:** `http://localhost:8080/swagger-ui/index.html`
+- **JSON:** `http://localhost:8080/v3/api-docs`
+
+> Para testar endpoints protegidos no Swagger, clique em "Authorize" no topo da interface, cole seu token JWT (apenas o token, sem o prefixo "Bearer ") e confirme. Assim, todas as requisições autenticadas serão feitas automaticamente.
+
+---
+
 ## Observações Técnicas
 
 - **Scheduler:** o job diário em `SchedulerService` é responsável por criar as caronas recorrentes. Em ambiente de desenvolvimento, pode ser necessário ajustar o horário do cron para testar.
@@ -296,21 +298,9 @@ Sequência recomendada para testar o fluxo completo:
 
 ---
 
-## Swagger / OpenAPI
-
-Com a API em execução, acesse a documentação interativa:
-
-- **Interface:** `http://localhost:8080/swagger-ui/index.html`
-- **JSON:** `http://localhost:8080/v3/api-docs`
-
----
-
-## Autores
+## 👨‍💻 Autores
 
 **Equipe FatecRide**
-
-| Nome | GitHub |
-|---|---|
-| Felipe SMZ | [@Felipe-SMZ](https://github.com/Felipe-SMZ) |
-| Marcos Santos | [@MarcosVVSantos](https://github.com/MarcosVVSantos) |
-| Guilherme Rufino | [@rufinoguilherme633](https://github.com/rufinoguilherme633) |
+- [Felipe SMZ](https://github.com/Felipe-SMZ)
+- [Marcos Santos](https://github.com/MarcosVVSantos)
+- [Guilherme Rufino](https://github.com/rufinoguilherme633)
