@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,27 +90,35 @@ public class AgendarRideDiaSemanaService {
 		agendarRideDiaSemanaRepository.saveAll(lista);
 
 	}
-	/*
+	
 	public List<AgendarRideDiaSemanaDTO> pegarTodos(Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("usuario não encontrado"));
 		
-		List<AgendarRideDiaSemana> minhalista = agendarRideDiaSemanaRepository.findByUserId(user.getId());
+		List<AgendarRideDiaSemana> minhalista = agendarRideDiaSemanaRepository.findByRideDriverIdAndAtivoTrue(user.getId());
 		
 		
 
 
-		List<AgendarRideDiaSemanaDTO> minhaListaDTO = new ArrayList<AgendarRideDiaSemanaDTO>();
+		  List<AgendarRideDiaSemana> lista =
+			        agendarRideDiaSemanaRepository.findByRideDriverIdAndAtivoTrue(user.getId());		
 		
-		
-		for(AgendarRideDiaSemana i:minhalista) {
-			AgendarRideDiaSemanaDTO dto = new AgendarRideDiaSemanaDTO(
+		Map<Long, List<AgendarRideDiaSemana>> agrupado =
+		        lista.stream()
+		             .collect(Collectors.groupingBy(a -> a.getRide().getId()));
+
 			
-					
-					);
-			
-		}
-		
-				return minhalista;
+		List<AgendarRideDiaSemanaDTO> resultado =
+		        agrupado.entrySet().stream()
+		            .map(entry -> new AgendarRideDiaSemanaDTO(
+		                entry.getKey(), // rideId
+
+		                entry.getValue().stream()
+		                    .map(a -> a.getDia_semana_agendamento().getId())
+		                    .toList()
+		            ))
+		            .toList();
+
+		    return resultado;
 	}
-*/
+
 }
