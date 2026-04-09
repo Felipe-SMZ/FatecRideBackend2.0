@@ -1,7 +1,10 @@
 package com.example.fatecCarCarona.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.fatecCarCarona.dto.AgendarRideDiaSemanaDTO;
 import com.example.fatecCarCarona.dto.AgendarRideIntervaloDiasDTO;
 import com.example.fatecCarCarona.entity.User;
 import com.example.fatecCarCarona.service.AgendarRideIntervaloDiasService;
@@ -40,5 +44,13 @@ public class AgendarRideIntervaloDiasController {
 		Long idLong = tokenService.extractUserIdFromHeader(authHeader);
 		agendarRideIntervaloDiasService.desativar(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<AgendarRideIntervaloDiasDTO>> pegarTodos(@RequestHeader("Authorization") String authHeader) {
+		Long idLong = tokenService.extractUserIdFromHeader(authHeader);
+
+		List<AgendarRideIntervaloDiasDTO> todos=  agendarRideIntervaloDiasService.pegarTodos(idLong);
+		return ResponseEntity.ok(todos);
 	}
 }

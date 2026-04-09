@@ -48,15 +48,17 @@ public class AgendarRideDiaSemanaController {
 	}
 	
 	
-	/*
+	
 	//fazer
-	@GetMapping("")
-	public ResponseEntity<List<AgendarRideDiaSemanaDTO>> pegarTodos(@PathVariable Integer id) {
-		List<AgendarRideDiaSemanaDTO> todos=  agendarRideDiaSemanaService.pegarTodos(id);
+	@GetMapping
+	public ResponseEntity<List<AgendarRideDiaSemanaDTO>> pegarTodos(@RequestHeader("Authorization") String authHeader) {
+		Long idLong = tokenService.extractUserIdFromHeader(authHeader);
+
+		List<AgendarRideDiaSemanaDTO> todos=  agendarRideDiaSemanaService.pegarTodos(idLong);
 		return ResponseEntity.ok(todos);
 	}
 	
-	*/
+	
 	
 
 }

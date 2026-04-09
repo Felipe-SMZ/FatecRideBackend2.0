@@ -1,11 +1,13 @@
 package com.example.fatecCarCarona.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.fatecCarCarona.dto.AgendarRideIntervaloDiasDTO;
+import com.example.fatecCarCarona.entity.AgendarRideDiaSemana;
 import com.example.fatecCarCarona.entity.AgendarRideIntervaloDias;
 import com.example.fatecCarCarona.entity.IntervaloDias;
 import com.example.fatecCarCarona.entity.Ride;
@@ -66,6 +68,14 @@ public class AgendarRideIntervaloDiasService {
 		agenda.setAtivo(false);
 		agendarRideIntervaloDiasRepository.save(agenda);
 
+	}
+
+	public List<AgendarRideIntervaloDiasDTO> pegarTodos(Long idLong) {
+		User user = userRepository.findById(idLong).orElseThrow(() -> new RuntimeException("usuario não encontrado"));
+		
+		List<AgendarRideDiaSemana> minhalista = agendarRideIntervaloDiasRepository.findByRideDriverIdAndAtivoTrue(user.getId());
+		
+		return null;
 	}
 
 }
