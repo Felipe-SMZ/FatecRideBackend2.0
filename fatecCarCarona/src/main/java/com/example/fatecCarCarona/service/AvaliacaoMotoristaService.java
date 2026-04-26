@@ -25,16 +25,12 @@ public class AvaliacaoMotoristaService {
 	 
 	  @Autowired
 	  AvaliacaoMotoristaRepository avaliacaoMotoristaRepository;
-	  
 	  @Autowired
 	  UserRepository userRepository;
-	  
 	  @Autowired
 	  RideRepository rideRepository;
-	  
 	  @Autowired
 	  PassageRequestsRepository passageRequestsRepository;
-	  
 	  @Autowired
 	  ConversorAvaliacao conversorAvaliacao;
 	  

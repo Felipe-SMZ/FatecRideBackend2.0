@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.fatecCarCarona.dto.RouteCoordinatesDTO;
 import com.example.fatecCarCarona.entity.Ride;
@@ -40,7 +42,10 @@ public class FindNearbyDrivers {
 
 
         if(motoristaProximos.isEmpty()) {
-        	throw new Exception("Nenhum motorista proximo");
+        	throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Nenhum motorista próximo encontrado"
+            );
         }
 
         List<NearbyDriversDTO> listNearbyDrivers = motoristaProximos.stream().map(ride -> new NearbyDriversDTO(

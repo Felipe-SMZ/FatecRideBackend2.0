@@ -63,16 +63,13 @@ public class PassageRequestsService {
 	PassageRequestsStatusService passageRequestsStatusService;
 	@Autowired
 	PassageRequestsRepository passageRequestsRepository;
-	private Optional<OpenstreetmapDTO> buscarLocalizacao(String endereco) throws Exception {
+	@Autowired
+	UserService userService;
+	private OpenstreetmapDTO buscarLocalizacao(String endereco) throws Exception {
 		
-		Optional<OpenstreetmapDTO> resultado = openstreetmapService.buscarLocal(endereco);
-
-		if (resultado.isEmpty()) {
-			throw new Exception("Endereço não encontrado no OpenStreetMap: " + endereco);
-		}
-
-		return resultado;
+		return openstreetmapService.buscarLocal(endereco);	
 	}
+	
 	private void validateAddress(String cep, String cidade, String logradouro, String bairro) {
 		Optional<ViaCepDTO> viaCepDTO = viaCepService.buscarCep(cep);
 
@@ -81,13 +78,6 @@ public class PassageRequestsService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"CEP não encontrado: " + cep);
 		}
 
-		//boolean isValid = viaCepDTO.get().localidade().equals(cidade) &&
-		//				 viaCepDTO.get().logradouro().equals(logradouro) &&
-		//				 viaCepDTO.get().bairro().equals(bairro);
-
-		//if (!isValid) {
-		//	throw new RideException("Endereço não corresponde ao CEP informado");
-		//}
 	}
 	
 	private Origin criarOrigem(OriginDTO originDTO, City cidade, OpenstreetmapDTO localizacao) {
@@ -137,12 +127,12 @@ public class PassageRequestsService {
 	
 	@Transactional(rollbackOn = Exception.class)
 	public PassageRequestsDTO create(PassageRequestsDTO passageRequests, Long idLong) throws Exception {
-		User user = userRepository.findById(idLong).orElseThrow(() -> new RuntimeException("usuario não encontrado"));
-
-		System.out.println(passageRequests.id_carona());
+		User user = userService.existUser(idLong);
 		
 		Ride ride = rideRepository.findById(passageRequests.id_carona())
-		        .orElseThrow(() -> new RuntimeException("Carona não encontrada"));
+				.orElseThrow(() -> new ResponseStatusException(
+					    HttpStatus.NOT_FOUND, "Carona não encontrada"
+					));
 		
 		validateAddress(passageRequests.originDTO().cep(), passageRequests.originDTO().cidade(),
 				   passageRequests.originDTO().logradouro(), passageRequests.originDTO().bairro());
@@ -157,8 +147,8 @@ public class PassageRequestsService {
 		String enderecoOrigem = String.format("%s %s", passageRequests.originDTO().logradouro(), cidadeOrigem.getNome());
 		String enderecoDestino = String.format("%s %s", passageRequests.destinationDTO().logradouro(), cidadeDestino.getNome());
 	
-		OpenstreetmapDTO localizacaoOrigem = buscarLocalizacao(enderecoOrigem).get();
-		OpenstreetmapDTO localizacaoDestino = buscarLocalizacao(enderecoDestino).get();
+		OpenstreetmapDTO localizacaoOrigem = buscarLocalizacao(enderecoOrigem);
+		OpenstreetmapDTO localizacaoDestino = buscarLocalizacao(enderecoDestino);
 	
 		Origin origem = criarOrigem(passageRequests.originDTO(), cidadeOrigem, localizacaoOrigem);
 		Destination destino = criarDestino(passageRequests.destinationDTO(), cidadeDestino, localizacaoDestino);
@@ -202,9 +192,11 @@ public class PassageRequestsService {
 	}
 	
 	public void cancelar(Long userId, Long id_solicitacao) {
-		PassageRequests passageRequest = passageRequestsRepository.findById(id_solicitacao).orElseThrow(() -> new RuntimeException("nenhuma solicitação encontrada"));
-		
-		
+		PassageRequests passageRequest = passageRequestsRepository.findById(id_solicitacao)
+				.orElseThrow(() -> new ResponseStatusException(
+					    HttpStatus.NOT_FOUND, "nenhuma solicitação encontrada"
+					));
+				
 		passageRequest.setStatus(passageRequestsStatusService.findByNome("cancelada"));
 		passageRequestsRepository.save(passageRequest);
 		 
@@ -263,9 +255,8 @@ public class PassageRequestsService {
 	    return new PageImpl<>(dtos, paginaDeSolicitacoes.getPageable(), paginaDeSolicitacoes.getTotalElements());
 	}
 	public List<PendingPassengerRequestDTO> getPendingRequests(Long userId) {
-	    User user = userRepository.findById(userId)
-	        .orElseThrow(() -> new IllegalArgumentException("usuario não encontrado"));
-
+	    User user = userService.existUser(userId);
+	
 	    // IDs de status que queremos retornar ao passageiro (pendente e aceita)
 	    List<Long> statusIds = Arrays.asList(1L, 2L); // ajuste se os IDs forem diferentes
 
