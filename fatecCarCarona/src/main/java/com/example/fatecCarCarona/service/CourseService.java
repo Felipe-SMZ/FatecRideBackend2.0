@@ -27,10 +27,16 @@ public class CourseService {
 	}
 
 	public List<CourseDTO> allCourses(){
-		List<Course> allCourses = courseRepository.findAll();
+		
+		 
+		  List<Course> allCourses = courseRepository.findAll();
 		List<CourseDTO> allCoursesDTO = allCourses.stream()
 				.map(course -> new CourseDTO(course.getId(), course.getName()))
 				.collect(Collectors.toList());
+		  
+		 
+		//List<CourseDTO> allCoursesDTO = courseRepository.findAllDTO();
+		
 		return allCoursesDTO;
 
 	}

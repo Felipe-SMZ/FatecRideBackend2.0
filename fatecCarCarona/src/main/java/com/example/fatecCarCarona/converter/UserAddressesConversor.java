@@ -35,6 +35,20 @@ public class UserAddressesConversor {
 
 		return userAddresses;
 	}
+	
+	
+	public UserAddresses convertDTOTOUserAddresses(UserAddressesDTO userAddressesDTO, User user, City city) {
+	    UserAddresses userAddresses = new UserAddresses();
+	    userAddresses.setUser(user);
+	    userAddresses.setCity(city);
+	    userAddresses.setLogradouro(userAddressesDTO.logradouro());
+	    userAddresses.setNumero(userAddressesDTO.numero());
+	    userAddresses.setBairro(userAddressesDTO.bairro());
+	    userAddresses.setCep(userAddressesDTO.cep());
+
+
+		return userAddresses;
+	}
 
 
 

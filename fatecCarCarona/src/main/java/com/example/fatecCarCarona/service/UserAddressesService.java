@@ -47,7 +47,8 @@ public class UserAddressesService {
 	public UserAddresses validateUserAddressesViaCep(User user, UserAddressesDTO userAddressesDTO ) {
 	    City city = cityService.validateCity(userAddressesDTO.cityId());
 
-	    Optional<ViaCepDTO> viaCepDTO = viaCepService.buscarCep(userAddressesDTO.cep());
+	  
+	     Optional<ViaCepDTO> viaCepDTO = viaCepService.buscarCep(userAddressesDTO.cep());
 		if(viaCepDTO.isEmpty()) {
 			throw new ResponseStatusException(
 		            HttpStatus.BAD_REQUEST,
@@ -55,6 +56,7 @@ public class UserAddressesService {
 		    );
 
 		}
+	   
 
 	    String localString =
 	    	    userAddressesDTO.logradouro() + " " +
@@ -64,10 +66,10 @@ public class UserAddressesService {
 	    System.out.println(localString);
 
 
-	    OpenstreetmapDTO resultado = buscar(localString);
+	    //OpenstreetmapDTO resultado = buscar(localString);
 	  
-	    UserAddresses userAddresses = userAddressesConversor.convertDTOTOUserAddresses(userAddressesDTO,user, city,resultado.lat(),resultado.lon());
-
+	    //UserAddresses userAddresses = userAddressesConversor.convertDTOTOUserAddresses(userAddressesDTO,user, city,resultado.lat(),resultado.lon());
+	    UserAddresses userAddresses = userAddressesConversor.convertDTOTOUserAddresses(userAddressesDTO,user, city);
 	    return userAddresses;
 
 	}
