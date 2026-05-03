@@ -200,6 +200,6 @@ class RideRepositoryTest {
         assertNotNull(result);
         assertEquals(0, result.size());
     }
-    * */
+    * 
 }
  */
