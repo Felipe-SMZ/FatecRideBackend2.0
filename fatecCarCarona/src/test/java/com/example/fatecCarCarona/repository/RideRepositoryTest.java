@@ -1,4 +1,4 @@
-/*
+
  package com.example.fatecCarCarona.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,25 +32,7 @@ import com.example.fatecCarCarona.entity.Vehicle;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@Transactional
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-@TestPropertySource(properties = {
-    "spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1",
-    "spring.datasource.driverClassName=org.h2.Driver",
-    "spring.datasource.username=sa",
-    "spring.datasource.password=",
-    "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect",
-    "spring.jpa.hibernate.ddl-auto=create-drop",
-    "spring.jpa.defer-datasource-initialization=true",
-    "spring.sql.init.mode=never",
-    "spring.data.mongodb.uri=",
-    "api.security.token.secret=test-secret"
-})
-@ImportAutoConfiguration(exclude = {
-    org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
-    org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration.class,
-    org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration.class
-})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // 👈 não substituir
 class RideRepositoryTest {
 
     @Autowired
@@ -189,17 +171,6 @@ class RideRepositoryTest {
         assertEquals(destination.getId(), found.getDestination().getId());
     }
 
-   /*
-    *  @Test
-    void naoDeveRetornarCorridasQuandoNaoExistem() {
 
-        List<Ride> result = rideRepository.findAtivasByDriverId(driver.getId());
-
-        
-        
-        assertNotNull(result);
-        assertEquals(0, result.size());
-    }
-    * 
 }
- */
+ 
