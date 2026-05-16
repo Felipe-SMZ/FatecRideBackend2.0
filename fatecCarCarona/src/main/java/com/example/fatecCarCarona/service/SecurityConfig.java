@@ -58,6 +58,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         // Endpoints de notificação SSE - requer autenticação
                         //.requestMatchers(HttpMethod.GET, "/notificacoes/stream").authenticated()
                         .requestMatchers(HttpMethod.GET, "/notificacoes/stream").permitAll()
