@@ -65,7 +65,7 @@ public class PassageRequestAutomaticService {
 	@Autowired
 	private PassageRequestsStatusService passageRequestsStatusService;
 
-	@Value("${carona.auto.timeout-motorista-segundos:60}0")
+	@Value("${carona.auto.timeout-motorista-segundos:120}")
 	private Integer timeoutMotoristaSegundos;
 
 	@Value("${carona.auto.limite-tentativas:3}")
@@ -146,6 +146,9 @@ public class PassageRequestAutomaticService {
 		passageRequestQueueRepository.findBySolicitacaoIdOrderByOrdemFilaAsc(solicitacao.getId())
 				.forEach(passageRequestQueueRepository::delete);
 
+		log.info("📊 CRIANDO FILA DE MOTORISTAS");
+		log.info("Total de motoristas candidatos: {}", motoristas.size());
+
 		int ordem = 1;
 		for (NearbyDriversDTO motorista : motoristas) {
 			PassageRequestQueue filaEntry = new PassageRequestQueue();
@@ -174,10 +177,18 @@ public class PassageRequestAutomaticService {
 			filaEntry.setDistanciaOrigemKm(motorista.distanciaOrigemKm());
 
 			passageRequestQueueRepository.save(filaEntry);
+
+			log.info("📌 Posição {} na fila: Motorista {} (Carona {}, Distância: {} km)",
+				ordem, motorista.idMotorista(), motorista.idCarona(),
+				String.format("%.2f", motorista.distanciaOrigemKm())
+			);
+
 			ordem++;
 
 			log.debug("Motorista {} adicionado à fila na posição {}", motorista.idMotorista(), ordem - 1);
 		}
+
+		log.info("✅ FILA DE {} MOTORISTAS CRIADA", ordem - 1);
 	}
 
 	/**
@@ -520,6 +531,28 @@ public class PassageRequestAutomaticService {
 		}
 
 		log.info("Solicitação {} marcada como recusada e filas finalizadas", solicitacao.getId());
+	}
+
+	/**
+	 * Limpa todas as entradas da fila de uma solicitação e cancela timeouts pendentes.
+	 */
+	@Transactional
+	public void limparFilaSolicitacao(Long solicitacaoId, String motivo) {
+		List<PassageRequestQueue> filas = passageRequestQueueRepository
+				.findBySolicitacaoIdOrderByOrdemFilaAsc(solicitacaoId);
+
+		if (filas.isEmpty()) {
+			log.debug("Nenhuma entrada de fila para limpar na solicitação {}", solicitacaoId);
+			return;
+		}
+
+		for (PassageRequestQueue fila : filas) {
+			cancelScheduledTimeout(fila.getId());
+		}
+
+		passageRequestQueueRepository.deleteAll(filas);
+		log.info("Fila da solicitação {} limpa ({} registros removidos). Motivo: {}",
+				solicitacaoId, filas.size(), motivo);
 	}
 
 	/**
