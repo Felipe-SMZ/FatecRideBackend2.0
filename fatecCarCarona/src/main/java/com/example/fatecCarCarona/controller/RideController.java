@@ -92,26 +92,9 @@ public class RideController {
 	    
 	    }
 	    
-	    @PutMapping("/{idSolicitacao}/acept")
-	    public ResponseEntity<Map<String, String>> aceitarSolicitacao(
-	    		@PathVariable Long idSolicitacao,
-	            @RequestHeader("Authorization") String authHeader,
-	            @RequestBody(required = false) AceitarSolicitacaoDTO idCarona) {
-	    	Long driverId = tokenService.extractUserIdFromHeader(authHeader);
-	    	System.out.println("Driver ID extraído: " + driverId);
-
-	    	if (idCarona == null || idCarona.idCarona() == null) {
-	    		throw new org.springframework.web.server.ResponseStatusException(
-	    				org.springframework.http.HttpStatus.BAD_REQUEST,
-	    				"Envie o body {\"idCarona\": <id>} para aceitar a solicitação"
-	    		);
-	    	}
-
-
-	        rideService.aceitarSolicitacao(idSolicitacao, driverId, idCarona.idCarona());
-	        return ResponseEntity.ok(Map.of("message", "Solicitação aceita com sucesso"));
-
-	    }
+					// Nota: endpoint de aceite legado removido — aceitar solicitações agora é suportado somente
+					// via fluxo automático (/solicitacao/automatico/aceitar). Esta rota foi removida para
+					// forçar o uso do novo fluxo.
 
 	    @PutMapping("/finalizar/{rideId}")
 	    public ResponseEntity<Map<String, String>> finalizarCarona(

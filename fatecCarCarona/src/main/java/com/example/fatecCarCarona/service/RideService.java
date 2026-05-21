@@ -676,34 +676,37 @@ public class RideService {
 		    	throw new SecurityException("vagas disponiveis nao podem ser igual a 0");
 		    }
 
-		    // Compatibilidade: se existir entrada no fluxo automático, delega para atualizar
-		    // fila/pipeline corretamente (aceita + rejeição dos demais motoristas).
-		    Optional<PassageRequestQueue> filaAutomatica = passageRequestQueueRepository
-		    		.findBySolicitacaoIdOrderByOrdemFilaAsc(id_solicitacao)
-		    		.stream()
-		    		.filter(f -> f.getMotorista() != null && driverId.equals(f.getMotorista().getId()))
-		    		.filter(f -> f.getRide() != null && id_carona.equals(f.getRide().getId()))
-		    		.filter(f -> f.getStatus() != null && (
-		    				"enviada".equalsIgnoreCase(f.getStatus().getNome())
-		    				|| "aceita".equalsIgnoreCase(f.getStatus().getNome())))
-		    		.findFirst();
+			// Novo fluxo obrigatório: aceite deve ocorrer somente via fila automática.
+			Optional<PassageRequestQueue> filaAutomatica = passageRequestQueueRepository
+					.findBySolicitacaoIdOrderByOrdemFilaAsc(id_solicitacao)
+					.stream()
+					.filter(f -> f.getMotorista() != null && driverId.equals(f.getMotorista().getId()))
+					.filter(f -> f.getRide() != null && id_carona.equals(f.getRide().getId()))
+					.filter(f -> f.getStatus() != null && (
+							"enviada".equalsIgnoreCase(f.getStatus().getNome())
+							|| "aceita".equalsIgnoreCase(f.getStatus().getNome())))
+					.findFirst();
 
-		    if (filaAutomatica.isPresent()) {
-		    	try {
-		    		passageRequestAutomaticService.handleMotoristaAceita(
-		    				filaAutomatica.get().getId(),
-		    				id_solicitacao,
-		    				driverId
-		    		);
-		    	} catch (Exception e) {
-		    		throw new IllegalStateException("Erro ao sincronizar aceite com a fila automática: " + e.getMessage(), e);
-		    	}
+			if (filaAutomatica.isPresent()) {
+				try {
+					passageRequestAutomaticService.handleMotoristaAceita(
+							filaAutomatica.get().getId(),
+							id_solicitacao,
+							driverId
+					);
+				} catch (Exception e) {
+					throw new IllegalStateException("Erro ao sincronizar aceite com a fila automática: " + e.getMessage(), e);
+				}
 
-		    	ride.setAvailableSeats(ride.getAvailableSeats() -1);
-		    	rideRepository.save(ride);
-		    	return;
-		    }
-		    
+				ride.setAvailableSeats(ride.getAvailableSeats() -1);
+				rideRepository.save(ride);
+				return;
+			}
+
+			// Se não houver entrada na fila automática, o fluxo legado foi removido.
+			throw new ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST,
+					"Aceite somente suportado via fluxo automático. Use /solicitacao/automatico/aceitar.");
+
 		    
 		    if (!ride.getDriver().getId().equals(user.getId())) {
 		        throw new SecurityException("Esta carona não pertence a este motorista.");
