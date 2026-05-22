@@ -60,6 +60,25 @@ services:
     depends_on:
       - prometheus
 
+  dbMongoAnunciantes:
+    image: mongo:6
+    container_name: mongo-anunciante
+    ports:
+      - "2708:27017"
+    volumes:
+      - mongo_data_anunciante:/data/db
+
+  backend_node_anunciante:
+    build: ./backendNode
+    container_name: backend-carona-anunciantes
+    depends_on:
+      dbMongoAnunciantes:
+        condition: service_started
+    ports:
+      - "8081:8081"
+    environment:
+      - MONGO_URI_ANUNCIANTE=mongodb://dbMongoAnunciantes:27017/backendfatecnode || "mongodb://localhost/backendfatecnode"
 volumes:
   mysql_data:
   mongo_data:
+  mongo_data_anunciante:
