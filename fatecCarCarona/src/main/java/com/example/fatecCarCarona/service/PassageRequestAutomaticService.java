@@ -330,6 +330,9 @@ public class PassageRequestAutomaticService {
 		// Rejeitar outros motoristas na fila
 		rejeitarOutrosMotoristas(solicitacao.getId(), motoristaId);
 
+		// Limpar a fila da solicitação após aceitação, pois a carona foi confirmada
+		limparFilaSolicitacao(solicitacao.getId(), "solicitacao aceita");
+
 		log.info("Solicitação {} aceita pelo motorista {}", solicitacaoId, motoristaId);
 	}
 
@@ -526,6 +529,9 @@ public class PassageRequestAutomaticService {
 					cancelScheduledTimeout(fila.getId());
 				}
 			}
+
+			// remover fisicamente as entradas após marcar como recusada
+			passageRequestQueueRepository.deleteAll(filas);
 		} else {
 			log.warn("Status 'recusada' para filas não encontrado - pulando finalização de filas");
 		}
@@ -546,13 +552,23 @@ public class PassageRequestAutomaticService {
 			return;
 		}
 
+		// Cancelar timeouts e remover apenas filas que não estejam em status final 'aceita'
+		List<PassageRequestQueue> toDelete = new java.util.ArrayList<>();
 		for (PassageRequestQueue fila : filas) {
 			cancelScheduledTimeout(fila.getId());
+			String nomeStatus = fila.getStatus() != null ? fila.getStatus().getNome() : "";
+			if (!"aceita".equals(nomeStatus)) {
+				toDelete.add(fila);
+			}
 		}
 
-		passageRequestQueueRepository.deleteAll(filas);
-		log.info("Fila da solicitação {} limpa ({} registros removidos). Motivo: {}",
-				solicitacaoId, filas.size(), motivo);
+		if (!toDelete.isEmpty()) {
+			passageRequestQueueRepository.deleteAll(toDelete);
+			log.info("Fila da solicitação {} limpa ({} registros removidos). Motivo: {}",
+					solicitacaoId, toDelete.size(), motivo);
+		} else {
+			log.debug("Nenhuma fila não-aceita para remover na solicitação {}", solicitacaoId);
+		}
 	}
 
 	/**

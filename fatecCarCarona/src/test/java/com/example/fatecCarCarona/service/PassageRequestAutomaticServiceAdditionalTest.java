@@ -1,17 +1,9 @@
 package com.example.fatecCarCarona.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import com.example.fatecCarCarona.dto.NearbyDriversDTO;
+import com.example.fatecCarCarona.entity.*;
+import com.example.fatecCarCarona.repository.*;
 import jakarta.persistence.OptimisticLockException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,19 +15,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import com.example.fatecCarCarona.dto.NearbyDriversDTO;
-import com.example.fatecCarCarona.entity.PassageRequestQueue;
-import com.example.fatecCarCarona.entity.PassageRequestQueueStatus;
-import com.example.fatecCarCarona.entity.PassageRequests;
-import com.example.fatecCarCarona.entity.PassageRequestsPipelineStatus;
-import com.example.fatecCarCarona.entity.PassageRequestsStatus;
-import com.example.fatecCarCarona.entity.Ride;
-import com.example.fatecCarCarona.entity.User;
-import com.example.fatecCarCarona.repository.PassageRequestQueueRepository;
-import com.example.fatecCarCarona.repository.PassageRequestQueueStatusRepository;
-import com.example.fatecCarCarona.repository.PassageRequestsPipelineStatusRepository;
-import com.example.fatecCarCarona.repository.PassageRequestsRepository;
-import com.example.fatecCarCarona.repository.RideRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -83,6 +70,17 @@ class PassageRequestAutomaticServiceAdditionalTest {
         user.setId(100L);
         ride = new Ride();
         ride.setId(200L);
+
+        // garantir passageiro e coordenadas mínimas na solicitação para evitar NPEs em notificações
+        solicitation.setPassageiro(user);
+        com.example.fatecCarCarona.entity.Origin origin = new com.example.fatecCarCarona.entity.Origin();
+        origin.setLatitude(-23.55);
+        origin.setLongitude(-46.63);
+        solicitation.setOrigin(origin);
+        com.example.fatecCarCarona.entity.Destination destination = new com.example.fatecCarCarona.entity.Destination();
+        destination.setLatitude(-23.57);
+        destination.setLongitude(-46.65);
+        solicitation.setDestination(destination);
 
         statusPendente = new PassageRequestQueueStatus();
         statusPendente.setId(1L);
@@ -194,6 +192,67 @@ class PassageRequestAutomaticServiceAdditionalTest {
         // verify saves: queue saved at least once, and repository.save was called at least twice (pipeline + attempted accept)
         verify(passageRequestQueueRepository, atLeastOnce()).save(any(PassageRequestQueue.class));
         verify(passageRequestsRepository, atLeast(2)).save(any(PassageRequests.class));
+    }
+
+    @Test
+    @DisplayName("Ao aceitar solicitação, a fila deve ser limpa")
+    void testFilaLimpa_AposSolicitacaoAceita() throws Exception {
+        // preparar filas existentes
+        PassageRequestQueue fila1 = new PassageRequestQueue(); fila1.setId(1L);
+        User motorista1 = new User(); motorista1.setId(6L); fila1.setMotorista(motorista1);
+        PassageRequestQueue fila2 = new PassageRequestQueue(); fila2.setId(2L);
+        User motorista2 = new User(); motorista2.setId(7L); fila2.setMotorista(motorista2);
+
+        // definir status para evitar NPE quando o serviço inspecionar getStatus().getNome()
+        PassageRequestQueueStatus enviadaStatus = new PassageRequestQueueStatus();
+        enviadaStatus.setNome("enviada");
+        fila1.setStatus(enviadaStatus);
+        fila2.setStatus(enviadaStatus);
+        List<PassageRequestQueue> filas = List.of(fila1, fila2);
+
+        // preparar fila aceita
+        PassageRequestQueue filaAceita = new PassageRequestQueue();
+        filaAceita.setId(10L);
+        User motorista = new User(); motorista.setId(5L);
+        filaAceita.setMotorista(motorista);
+        filaAceita.setSolicitacao(solicitation);
+        PassageRequestQueueStatus enviada = new PassageRequestQueueStatus(); enviada.setNome("enviada"); filaAceita.setStatus(enviada);
+
+        when(passageRequestQueueRepository.findById(10L)).thenReturn(Optional.of(filaAceita));
+        when(passageRequestsRepository.findById(1L)).thenReturn(Optional.of(solicitation));
+        when(passageRequestQueueRepository.findBySolicitacaoIdOrderByOrdemFilaAsc(1L)).thenReturn(filas);
+
+        // stub necessário para rejeitar/limpar outras filas
+        when(queueStatusRepository.findByNome("recusada")).thenReturn(Optional.of(new PassageRequestQueueStatus()));
+
+        when(queueStatusRepository.findByNome("aceita")).thenReturn(Optional.of(new PassageRequestQueueStatus()));
+        when(pipelineStatusRepository.findByNome("aceita")).thenReturn(Optional.of(new PassageRequestsPipelineStatus()));
+        when(passageRequestsStatusService.findByNome("aceita")).thenReturn(statusSolicitacaoAceita);
+
+        // execute
+        service.handleMotoristaAceita(10L, 1L, motorista.getId());
+
+        // verificar que deleteAll foi chamado para limpar filas
+        verify(passageRequestQueueRepository, atLeastOnce()).findBySolicitacaoIdOrderByOrdemFilaAsc(1L);
+        verify(passageRequestQueueRepository, times(1)).deleteAll(filas);
+    }
+
+    @Test
+    @DisplayName("Ao recusar definitivamente solicitação, a fila deve ser limpa")
+    void testFilaLimpa_AposSolicitacaoRecusada() throws Exception {
+        PassageRequestQueue fila1 = new PassageRequestQueue(); fila1.setId(3L);
+        PassageRequestQueue fila2 = new PassageRequestQueue(); fila2.setId(4L);
+        List<PassageRequestQueue> filas = List.of(fila1, fila2);
+
+        when(passageRequestsStatusService.findByNome("recusada")).thenReturn(new PassageRequestsStatus());
+        when(passageRequestQueueRepository.findBySolicitacaoIdOrderByOrdemFilaAsc(1L)).thenReturn(filas);
+        when(queueStatusRepository.findByNome("recusada")).thenReturn(Optional.of(new PassageRequestQueueStatus()));
+
+        // execute
+        service.marcarSolicitacaoComoRecusada(solicitation);
+
+        verify(passageRequestQueueRepository, atLeastOnce()).findBySolicitacaoIdOrderByOrdemFilaAsc(1L);
+        verify(passageRequestQueueRepository, times(1)).deleteAll(filas);
     }
 
 }
