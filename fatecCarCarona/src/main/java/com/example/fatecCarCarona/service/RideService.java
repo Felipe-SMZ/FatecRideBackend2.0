@@ -707,34 +707,8 @@ public class RideService {
 			throw new ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST,
 					"Aceite somente suportado via fluxo automático. Use /solicitacao/automatico/aceitar.");
 
-		    
-		    if (!ride.getDriver().getId().equals(user.getId())) {
-		        throw new SecurityException("Esta carona não pertence a este motorista.");
-		    }
-		    
-		    
-		    
-		    if (passageRequest.getCarona() == null) {
-		    	passageRequest.setCarona(ride);
-		    } else if (!passageRequest.getCarona().getId().equals(ride.getId())) {
-		    	throw new SecurityException("essa solicitacao não foi solicitada a essa carona");
-		    }
-		    
-		    
-		    
-		    
-	    	passageRequest.setStatus(passageRequestsStatusService.findByNome("aceita"));
-	    	ride.setAvailableSeats(ride.getAvailableSeats() -1);
+		}
 
-	    	passageRequestsRepository.save(passageRequest);
-	    	rideRepository.save(ride);
-
-
-
-
-
-	}
-	
 	@Transactional(rollbackOn = Exception.class)
 	public void finalizarCarona(Long rideId, Long driverId) {
 	    // 1. Buscar e validar usuário
