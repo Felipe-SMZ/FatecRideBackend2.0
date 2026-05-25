@@ -31,9 +31,15 @@ public interface PassageRequestsRepository extends JpaRepository<PassageRequests
 	int normalizeNullVersions();
 
 	@Modifying
-	@Query("UPDATE PassageRequests p SET p.status = :novoStatus WHERE p.carona.id = :caronaId AND p.status.nome = 'aceita'")
+	@Query(value = """
+			UPDATE solicitacoes pr
+			JOIN status_solicitacao s ON s.id_status_solicitacao = pr.id_status_solicitacao
+			SET pr.id_status_solicitacao = :novoStatusId
+			WHERE pr.id_carona = :caronaId
+			  AND s.status_nome = 'aceita'
+			""", nativeQuery = true)
 	int concluirSolicitacoesAceitasDaCarona(@Param("caronaId") Long caronaId,
-										 @Param("novoStatus") PassageRequestsStatus novoStatus);
+								 @Param("novoStatusId") Long novoStatusId);
 
 
 	@Query("""

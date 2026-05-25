@@ -739,7 +739,7 @@ public class RideService {
 	    passageRequestsRepository.normalizeNullVersions();
 	    var statusConcluidaSolicitacao = obterStatusConcluidaSolicitacao();
 	    if (statusConcluidaSolicitacao != null) {
-	    	int atualizadas = passageRequestsRepository.concluirSolicitacoesAceitasDaCarona(rideId, statusConcluidaSolicitacao);
+	    	int atualizadas = passageRequestsRepository.concluirSolicitacoesAceitasDaCarona(rideId, statusConcluidaSolicitacao.getId());
 	    	if (atualizadas > 0) {
 	    		System.out.println("✅ Atualizadas " + atualizadas + " solicitações para CONCLUÍDA");
 	    	}
@@ -767,8 +767,8 @@ public class RideService {
 
 			if (possuiAceite) {
 				ride.setStatus(statusConcluida);
-				if (statusConcluidaSolicitacao != null) {
-					passageRequestsRepository.concluirSolicitacoesAceitasDaCarona(ride.getId(), statusConcluidaSolicitacao);
+							if (statusConcluidaSolicitacao != null) {
+								passageRequestsRepository.concluirSolicitacoesAceitasDaCarona(ride.getId(), statusConcluidaSolicitacao.getId());
 				}
 			} else {
 				ride.setStatus(statusCancelada);
