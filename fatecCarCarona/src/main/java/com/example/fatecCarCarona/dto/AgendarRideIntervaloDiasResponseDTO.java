@@ -5,13 +5,16 @@ import java.time.LocalDate;
 public record AgendarRideIntervaloDiasResponseDTO(
         Long id,
         Long rideId,
-        String rideOrigem,
-        String rideDestino,
+        String origemLogradouro,
+        String origemBairro,
+        String destinoLogradouro,
+        String destinoBairro,
         Long driverId,
-        String driverName,
+        String driverNome,
+        String driverSobrenome,
         LocalDate dataInicio,
         Long intervaloDiasId,
-        String intervaloDiasNome,
+        Integer intervaloDiasQuantidadeDias,
         boolean ativo
 ) {
 }

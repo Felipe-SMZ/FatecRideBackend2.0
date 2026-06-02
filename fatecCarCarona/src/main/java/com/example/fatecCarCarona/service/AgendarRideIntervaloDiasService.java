@@ -1,15 +1,7 @@
 package com.example.fatecCarCarona.service;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
 import com.example.fatecCarCarona.dto.AgendarRideIntervaloDiasDTO;
-import com.example.fatecCarCarona.entity.AgendarRideDiaSemana;
+import com.example.fatecCarCarona.dto.AgendarRideIntervaloDiasResponseDTO;
 import com.example.fatecCarCarona.entity.AgendarRideIntervaloDias;
 import com.example.fatecCarCarona.entity.IntervaloDias;
 import com.example.fatecCarCarona.entity.Ride;
@@ -18,77 +10,106 @@ import com.example.fatecCarCarona.repository.AgendarRideIntervaloDiasRepository;
 import com.example.fatecCarCarona.repository.IntervaloDiasRepository;
 import com.example.fatecCarCarona.repository.RideRepository;
 import com.example.fatecCarCarona.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class AgendarRideIntervaloDiasService {
 
-	@Autowired
-	RideRepository rideRepository;
+    @Autowired
+    RideRepository rideRepository;
 
-	@Autowired
-	IntervaloDiasRepository intervaloDiasRepository;
+    @Autowired
+    IntervaloDiasRepository intervaloDiasRepository;
 
-	@Autowired
-	AgendarRideIntervaloDiasRepository agendarRideIntervaloDiasRepository;
+    @Autowired
+    AgendarRideIntervaloDiasRepository agendarRideIntervaloDiasRepository;
 
-	@Autowired
-	UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
-	public AgendarRideIntervaloDiasDTO criarNaAgendaRide(Long idLong, AgendarRideIntervaloDiasDTO agendarRide) {
+    public AgendarRideIntervaloDiasResponseDTO criarNaAgendaRide(Long idLong, AgendarRideIntervaloDiasDTO agendarRide) {
 
-		User user = userRepository.findById(idLong).orElseThrow(() -> new ResponseStatusException(
-	            HttpStatus.NOT_FOUND, "usuario não encontrado"));
+        User user = userRepository.findById(idLong)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuario não encontrado"));
 
-		Ride ride = rideRepository.findById(agendarRide.ride())
-				.orElseThrow(() -> new RuntimeException("Compromisso não encontrado"));
+        // ✅ CORRIGIDO: era RuntimeException genérica → HTTP 500
+        Ride ride = rideRepository.findById(agendarRide.ride())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Ride não encontrado"));
 
-		
-		if (!ride.getDriver().getId().equals(user.getId())) {
-			throw new ResponseStatusException(
-		            HttpStatus.FORBIDDEN,
-		            "Esta carona não pertence a este motorista."
-		        );
-	    }
-		IntervaloDias intervaloDias = intervaloDiasRepository.findById(agendarRide.intervalo_dias())
-				.orElseThrow(() -> new ResponseStatusException(
-	            HttpStatus.NOT_FOUND, "Intervalo de dia não encontrado"));
-				
+        if (!ride.getDriver().getId().equals(user.getId())) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Esta carona não pertence a este motorista.");
+        }
 
-		LocalDate dataAtual = LocalDate.now();
+        IntervaloDias intervaloDias = intervaloDiasRepository.findById(agendarRide.intervalo_dias())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Intervalo de dia não encontrado"));
 
-		AgendarRideIntervaloDias insert = new AgendarRideIntervaloDias();
-		insert.setRide(ride);
-		insert.setDia_agendamento(intervaloDias);
-		insert.setDataInicio(dataAtual);
-		insert.setAtivo(true);
-		AgendarRideIntervaloDias criarNaAgenda = agendarRideIntervaloDiasRepository.save(insert);
-		return agendarRide;
+        AgendarRideIntervaloDias insert = new AgendarRideIntervaloDias();
+        insert.setRide(ride);
+        insert.setDia_agendamento(intervaloDias);
+        // ✅ CORRIGIDO: usava LocalDate.now() ignorando o campo do DTO
+        insert.setDataInicio(agendarRide.dataInicio());
+        insert.setAtivo(true);
 
-	}
+        // ✅ CORRIGIDO: variável 'criarNaAgenda' era criada e ignorada
+        AgendarRideIntervaloDias salvo = agendarRideIntervaloDiasRepository.save(insert);
 
-	public void desativar(Long id) {
+        return toResponseDTO(salvo);
+    }
 
-		AgendarRideIntervaloDias agenda = agendarRideIntervaloDiasRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(
-			            HttpStatus.NOT_FOUND, "Compromisso não encontrado"));
-		if (!agenda.isAtivo()) {
-			return;
-		}
-		agenda.setAtivo(false);
-		agendarRideIntervaloDiasRepository.save(agenda);
+    public void desativar(Long id) {
 
-	}
+        AgendarRideIntervaloDias agenda = agendarRideIntervaloDiasRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Agendamento não encontrado"));
 
-	public List<AgendarRideIntervaloDias> pegarTodos(Long idLong) {
-		User user = userRepository.findById(idLong).orElseThrow(() -> new ResponseStatusException(
-	            HttpStatus.NOT_FOUND, "usuario não encontrado"));
-		
-		//List<AgendarRideDiaSemana> minhalista = agendarRideIntervaloDiasRepository.findByRideDriverIdAndAtivoTrue(user.getId());
-		List<AgendarRideIntervaloDias> minhalista = agendarRideIntervaloDiasRepository.findByRideDriverIdAndAtivoTrue(user.getId());
-		
-		
-		
-		return minhalista;
-	}
+        if (!agenda.isAtivo()) {
+            return;
+        }
 
+        agenda.setAtivo(false);
+        agendarRideIntervaloDiasRepository.save(agenda);
+    }
+
+    // ✅ CORRIGIDO: retornava entidade JPA diretamente na API
+    public List<AgendarRideIntervaloDiasResponseDTO> pegarTodos(Long idLong) {
+        User user = userRepository.findById(idLong)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuario não encontrado"));
+
+        List<AgendarRideIntervaloDias> lista =
+                agendarRideIntervaloDiasRepository.findByRideDriverIdAndAtivoTrue(user.getId());
+
+        return lista.stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    // ✅ NOVO: metodo de mapeamento centralizado
+    private AgendarRideIntervaloDiasResponseDTO toResponseDTO(AgendarRideIntervaloDias entity) {
+        return new AgendarRideIntervaloDiasResponseDTO(
+                entity.getId(),
+                entity.getRide().getId(),
+                entity.getRide().getOrigin().getLogradouro(),
+                entity.getRide().getOrigin().getBairro(),
+                entity.getRide().getDestination().getLogradouro(),
+                entity.getRide().getDestination().getBairro(),
+                entity.getRide().getDriver().getId(),
+                entity.getRide().getDriver().getNome(),
+                entity.getRide().getDriver().getSobrenome(),
+                entity.getDataInicio(),
+                entity.getDia_agendamento().getId(),
+                entity.getDia_agendamento().getQuantidade_dias(),
+                entity.isAtivo()
+        );
+    }
 }
