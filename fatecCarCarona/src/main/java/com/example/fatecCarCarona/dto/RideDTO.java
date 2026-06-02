@@ -3,6 +3,7 @@ package com.example.fatecCarCarona.dto;
 import java.time.LocalDateTime;
 
 public record RideDTO(
+		Long id,
 		OriginDTO originDTO,
 		DestinationDTO destinationDTO,
 		Integer vagas_disponiveis,
