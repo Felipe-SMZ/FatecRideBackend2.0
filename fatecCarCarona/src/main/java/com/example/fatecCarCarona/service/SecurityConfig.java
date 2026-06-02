@@ -70,6 +70,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/users").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/users").authenticated()
                         .requestMatchers(HttpMethod.GET, "/solicitacao/concluidas").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/comentar/*").authenticated()
                         .anyRequest().authenticated()
 
                 )
